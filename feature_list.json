@@ -88,7 +88,7 @@
   {"category": "H-URLAccess", "description": "Very long URL handled correctly", "steps": ["Step 1: Navigate to landing page with very long query string (1000+ chars)", "Step 2: Verify page handles it gracefully"], "passes": true},
   {"category": "H-URLAccess", "description": "API endpoints require proper HTTP methods", "steps": ["Step 1: Send GET request to POST /api/chat", "Step 2: Verify 405 Method Not Allowed or appropriate error"], "passes": true},
 
-  {"category": "I-Idempotency", "description": "Double-click on login button doesn't cause issues", "steps": ["Step 1: Navigate to landing page", "Step 2: Rapidly double-click login button", "Step 3: Verify only one OAuth flow initiated"], "passes": false},
+  {"category": "I-Idempotency", "description": "Double-click on login button doesn't cause issues", "steps": ["Step 1: Navigate to landing page", "Step 2: Rapidly double-click login button", "Step 3: Verify only one OAuth flow initiated"], "passes": true},
   {"category": "I-Idempotency", "description": "Double-click on logout doesn't cause errors", "steps": ["Step 1: Navigate to profile while authenticated", "Step 2: Rapidly double-click logout", "Step 3: Verify clean logout without errors"], "passes": false},
   {"category": "I-Idempotency", "description": "Multiple rapid chatbot sends handled correctly", "steps": ["Step 1: Type message in chatbot", "Step 2: Rapidly click send multiple times", "Step 3: Verify only one message sent or appropriate handling"], "passes": true},
   {"category": "I-Idempotency", "description": "Rapid page refreshes don't corrupt state", "steps": ["Step 1: Navigate to landing page", "Step 2: Rapidly refresh 5 times", "Step 3: Verify page loads correctly after"], "passes": true},
@@ -133,7 +133,7 @@
   {"category": "N-Feedback", "description": "Disabled login button shows tooltip on hover", "steps": ["Step 1: Ensure BetterAuth not configured", "Step 2: Hover over disabled login button", "Step 3: Verify tooltip explains why disabled"], "passes": true},
   {"category": "N-Feedback", "description": "Status badges show clear connected/disconnected state", "steps": ["Step 1: Navigate to landing page", "Step 2: Verify green checkmark for connected services", "Step 3: Verify red X for disconnected services"], "passes": true},
   {"category": "N-Feedback", "description": "Chatbot send button shows disabled state appropriately", "steps": ["Step 1: With empty input, verify send button state", "Step 2: During loading, verify button disabled", "Step 3: After response, verify button enabled"], "passes": true},
-  {"category": "N-Feedback", "description": "OAuth flow shows progress indication", "steps": ["Step 1: Click login button", "Step 2: Verify user can see authentication is in progress", "Step 3: Verify no blank screen during redirect"], "passes": false},
+  {"category": "N-Feedback", "description": "OAuth flow shows progress indication", "steps": ["Step 1: Click login button", "Step 2: Verify user can see authentication is in progress", "Step 3: Verify no blank screen during redirect"], "passes": true},
 
   {"category": "O-Responsive", "description": "Landing page renders correctly at 1920px desktop width", "steps": ["Step 1: Set viewport to 1920x1080", "Step 2: Navigate to landing page", "Step 3: Take screenshot (type='jpeg', quality=75)", "Step 4: Verify layout is correct, centered, max-w-2xl"], "passes": true},
   {"category": "O-Responsive", "description": "Landing page renders correctly at 768px tablet width", "steps": ["Step 1: Set viewport to 768x1024", "Step 2: Navigate to landing page", "Step 3: Take screenshot (type='jpeg', quality=75)", "Step 4: Verify layout adapts correctly"], "passes": true},
@@ -163,7 +163,7 @@
   {"category": "R-Concurrency", "description": "Rapid page navigations don't cause stale data display", "steps": ["Step 1: Rapidly navigate between landing and profile", "Step 2: Verify correct data displayed on each page", "Step 3: Verify no mixed state"], "passes": false},
   {"category": "R-Concurrency", "description": "Multiple chatbot messages queue correctly", "steps": ["Step 1: Send message before previous response arrives", "Step 2: Verify handled gracefully", "Step 3: Verify UI doesn't break"], "passes": false},
   {"category": "R-Concurrency", "description": "Simultaneous login attempts handled", "steps": ["Step 1: Open two tabs", "Step 2: Click login in both rapidly", "Step 3: Verify only one session created or handled gracefully"], "passes": false},
-  {"category": "R-Concurrency", "description": "Browser back during OAuth doesn't corrupt state", "steps": ["Step 1: Click login button", "Step 2: Press browser back during redirect", "Step 3: Verify app state is clean"], "passes": false},
+  {"category": "R-Concurrency", "description": "Browser back during OAuth doesn't corrupt state", "steps": ["Step 1: Click login button", "Step 2: Press browser back during redirect", "Step 3: Verify app state is clean"], "passes": true},
 
   {"category": "S-Export", "description": "No export feature needed per spec - placeholder test", "steps": ["Step 1: Verify app has no export functionality", "Step 2: This is expected per minimal spec"], "passes": true},
 
