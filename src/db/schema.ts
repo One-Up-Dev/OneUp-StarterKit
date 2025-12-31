@@ -1,29 +1,39 @@
-import { pgTable, uuid, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  varchar,
+  text,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   email: varchar("email", { length: 255 }).unique().notNull(),
+  emailVerified: boolean("email_verified").default(false).notNull(),
   name: varchar("name", { length: 255 }),
-  avatarUrl: varchar("avatar_url", { length: 500 }),
+  image: varchar("image", { length: 500 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const sessions = pgTable("sessions", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
+  id: text("id").primaryKey(),
+  userId: text("user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
-  token: varchar("token", { length: 500 }).unique().notNull(),
+  token: text("token").unique().notNull(),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
 });
 
 export const accounts = pgTable("accounts", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
-  userId: uuid("user_id")
+  userId: text("user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   accessToken: text("access_token"),
