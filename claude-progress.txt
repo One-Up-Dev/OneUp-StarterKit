@@ -10,6 +10,50 @@ A minimalist educational SaaS boilerplate with:
 
 ---
 
+## Session 12 (2024-12-31) - Coder Agent
+
+### Accomplishments
+1. Started dev server and verified all 4 services connected (PostgreSQL, BetterAuth, Polar, OpenRouter)
+2. Verified landing page loads correctly with status table showing all services "Connecté"
+3. Tested OAuth flow - clicking login button successfully redirects to Google sign-in page
+4. Took verification screenshot of landing page (verification-landing-session12.jpeg)
+5. Comprehensive code review of authentication-related components confirmed all implementations are correct
+
+### Verification Evidence
+- Screenshot: verification-landing-session12.jpeg - All 4 services connected, login button active
+- OAuth flow tested via Playwright - clicking "Se connecter" redirects to accounts.google.com correctly
+- Session endpoint tested: GET /api/auth/get-session returns `null` when not authenticated (expected behavior)
+
+### Code Review Confirmed (Same as Session 11)
+- Profile page (src/app/profile/page.tsx): Session check and redirect logic (lines 27-44)
+- Header (src/components/Header.tsx): User avatar and logout menu (lines 39-80)
+- Chatbot (src/components/Chatbot.tsx): Disabled overlay when OpenRouter not configured (lines 57-69)
+- Auth config (src/lib/auth.ts): 7-day session expiration (line 23)
+
+### Remaining Tests (31 tests) - BLOCKED BY OAUTH
+All remaining tests require completing actual Google OAuth authentication:
+- A-Security: Logout tests (1 test)
+- B-Navigation: Profile access, logout navigation, user avatar display (4 tests)
+- C-RealData: User data persistence and display (5 tests)
+- D-Workflow: OAuth flows, chatbot workflows (8 tests)
+- F-UIBackend: Session and chatbot UI/API integration (4 tests)
+- G-StatePersistence: Session persistence tests (3 tests)
+- I-Idempotency: Double-click on logout (1 test)
+- J-Cleanup: Logout removes session, duplicate account prevention (2 tests)
+- functional: End-to-end flows (3 tests)
+
+### Blocker: Google OAuth Authentication Required
+- Browser automation CANNOT enter Google credentials automatically (security restriction)
+- Tests require authenticated session to access profile page and test chatbot UI
+- Need human intervention to complete OAuth flow with real Google account
+
+### Recommendation for Future Sessions
+1. Human user needs to manually complete Google OAuth authentication
+2. Or: Set up test credentials with a dedicated test Google account
+3. Or: Implement a mock authentication bypass for testing purposes (development only)
+
+---
+
 ## Session 11 (2024-12-31) - Coder Agent
 
 ### Accomplishments
