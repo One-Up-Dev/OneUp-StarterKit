@@ -6,7 +6,7 @@ A minimalist educational SaaS boilerplate with:
 - Google OAuth authentication via BetterAuth
 - Profile page with AI chatbot (OpenRouter)
 
-## Current Status: 96/168 tests passing (57.1%)
+## Current Status: 101/168 tests passing (60.1%)
 
 ---
 
@@ -18,15 +18,17 @@ A minimalist educational SaaS boilerplate with:
 3. Updated schema to use TEXT type for verification IDs (BetterAuth generates string IDs, not UUIDs)
 4. Created and ran database migration script
 5. Verified Google OAuth flow works - clicking login button redirects to Google sign-in
-6. Verified status table correctly shows BetterAuth and OpenRouter as "Connecte"
-7. Marked 5 additional tests as passing
+6. Verified ALL 4 services now showing as "Connecte" (PostgreSQL, BetterAuth, Polar, OpenRouter)
+7. Tested chatbot API - verified OpenRouter integration works (returns dynamic responses)
+8. Tested API validation - empty body, invalid types, malformed JSON all properly rejected
+9. Marked 10 additional tests as passing
 
 ### Bug Fixes
 1. **Login button redirect**: Changed from incorrect `/api/auth/signin/google` URL to using BetterAuth's `signIn.social()` client method
 2. **Missing verification table**: Added `verifications` table to schema for BetterAuth OAuth state management
 3. **UUID type mismatch**: Changed verification table ID from UUID to TEXT to match BetterAuth's string ID format
 
-### Tests Marked as Passing in This Session (5 total)
+### Tests Marked as Passing in This Session (10 total)
 
 **B-Navigation:**
 - Login button in header is clickable when BetterAuth is configured
@@ -34,18 +36,31 @@ A minimalist educational SaaS boilerplate with:
 **C-RealData:**
 - BetterAuth status reflects actual configuration
 - OpenRouter status reflects actual configuration
+- Polar status reflects actual configuration
+- Chatbot response comes from real OpenRouter API
+
+**M-FormValidation:**
+- API chat endpoint validates request body
+- API chat endpoint validates prompt is string
+- Invalid JSON in request body returns helpful error
+
+### Verification Evidence
+- Screenshot: all-services-connected.jpeg - All 4 services showing green checkmarks
+- Screenshot: google-oauth-flow.jpeg - Google sign-in page after clicking login
+- API tests: curl commands verified chatbot returns dynamic responses (2+2=4)
+- API tests: Validation errors return proper JSON error messages
 
 ### Files Modified
 - src/app/page.tsx - Fixed login handler to use BetterAuth client
 - src/db/schema.ts - Added verifications table with correct types
 - src/lib/auth.ts - Added verification schema mapping
 - scripts/migrate-verifications.ts - Created migration script
-- feature_list.json - Updated 3 tests from "passes": false to "passes": true
+- feature_list.json - Updated 10 tests from "passes": false to "passes": true
 
 ### Next Steps
-1. Test chatbot functionality with OpenRouter API
-2. Complete authentication tests (requires actual Google OAuth login)
-3. Test profile page after successful authentication
+1. Complete authentication tests (requires actual Google OAuth login)
+2. Test profile page after successful authentication
+3. Test chatbot UI interactions (requires authentication)
 4. Verify remaining features
 
 ---
