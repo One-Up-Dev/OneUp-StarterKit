@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Header from "@/components/Header";
 import StatusTable from "@/components/StatusTable";
+import { signIn } from "@/lib/auth-client";
 
 export default function Home() {
   const [authEnabled, setAuthEnabled] = useState(false);
@@ -12,8 +13,11 @@ export default function Home() {
   }, []);
 
   const handleLogin = async () => {
-    // Redirect to BetterAuth Google OAuth
-    window.location.href = "/api/auth/signin/google";
+    // Use BetterAuth client signIn for Google OAuth
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/profile",
+    });
   };
 
   return (
