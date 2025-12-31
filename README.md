@@ -1,154 +1,194 @@
-# Starter-Kit
+# OneUp-StarterKit
 
-A minimalist educational boilerplate for learning how to build a SaaS application. This project demonstrates a modern SaaS stack with credential verification, Google OAuth authentication, and AI chatbot integration.
+A minimalist SaaS boilerplate for building modern web applications. Features authentication, payments, and AI chatbot integration out of the box.
 
 ## Overview
 
-The application displays a landing page with a status table showing whether various services are correctly configured (PostgreSQL, BetterAuth, Polar, OpenRouter). Once authenticated via Google OAuth, users can access a profile page with a simple AI chatbot.
+A single-page application with:
+- **Status Dashboard** - Real-time verification of all service connections
+- **Pricing Table** - 3 configurable plans (Basic/Pro/Elite) with Polar integration
+- **AI Chatbot** - OpenRouter-powered assistant (visible when logged in)
+- **Google OAuth** - One-click authentication via BetterAuth
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14+ with React 18+, Tailwind CSS
-- **Backend**: Next.js API Routes
-- **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: BetterAuth with Google OAuth
-- **Payments**: Polar integration (via BetterAuth)
-- **AI**: OpenRouter API for chatbot functionality
-- **Infrastructure**: Docker + docker-compose
-
-## Prerequisites
-
-- Docker and Docker Compose
-- Node.js 18+
-- Google Cloud Console project (for OAuth credentials)
-- Polar account (for payment integration)
-- OpenRouter API key (for AI chatbot)
+| Category | Technology |
+|----------|------------|
+| Frontend | Next.js 16+, React 18+, Tailwind CSS |
+| Backend | Next.js API Routes |
+| Database | PostgreSQL + Drizzle ORM |
+| Auth | BetterAuth + Google OAuth |
+| Payments | Polar (checkout, portal, webhooks) |
+| AI | OpenRouter API |
+| Infra | Docker + docker-compose |
 
 ## Quick Start
 
-1. **Clone and setup**:
-   ```bash
-   git clone <repository-url>
-   cd starter-kit
-   ./init.sh
-   ```
+```bash
+# Clone the repo
+git clone https://github.com/One-Up-Dev/OneUp-StarterKit.git
+cd OneUp-StarterKit
 
-2. **Configure environment variables**:
-   Edit the `.env` file with your credentials:
-   ```env
-   # Database
-   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/starterkit
+# Run setup script
+./init.sh
 
-   # BetterAuth
-   BETTER_AUTH_SECRET=your-secret-key
-   BETTER_AUTH_URL=http://localhost:3000
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
+# Or manually:
+docker-compose up -d
+npm install
+npm run dev
+```
 
-   # Polar
-   POLAR_ACCESS_TOKEN=your-polar-access-token
+Open http://localhost:3000
 
-   # OpenRouter
-   OPENROUTER_API_KEY=your-openrouter-api-key
-   ```
+## Environment Variables
 
-3. **Access the application**:
-   - Landing page: http://localhost:3000
-   - Status API: http://localhost:3000/api/status
+Create a `.env` file (copy from `.env.example`):
+
+```env
+# Database
+DATABASE_URL=postgresql://postgres:postgres@localhost:5434/starterkit
+
+# BetterAuth
+BETTER_AUTH_SECRET=your-secret-key
+BETTER_AUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Polar
+POLAR_ACCESS_TOKEN=your-polar-access-token
+POLAR_ENVIRONMENT=sandbox
+POLAR_WEBHOOK_SECRET=your-polar-webhook-secret
+
+# Polar Product IDs (from Polar Dashboard)
+POLAR_PRODUCT_BASIC=your-basic-product-id
+POLAR_PRODUCT_PRO=your-pro-product-id
+POLAR_PRODUCT_ELITE=your-elite-product-id
+
+# OpenRouter
+OPENROUTER_API_KEY=your-openrouter-api-key
+OPENROUTER_MODEL=openai/gpt-3.5-turbo
+```
 
 ## Features
 
-### Landing Page
-- Clean, minimal design
-- Credentials status table showing connection status for:
-  - PostgreSQL database
-  - BetterAuth (Google OAuth)
-  - Polar integration
-  - OpenRouter API
-- Login button with disabled state when credentials missing
+### Status Dashboard
+Real-time connection status for all services:
+- PostgreSQL database
+- BetterAuth (Google OAuth)
+- Polar payments
+- OpenRouter API
+
+### Pricing Table
+Three configurable plans with live verification:
+- **Basic** - Entry tier
+- **Pro** - Professional tier
+- **Elite** - Enterprise tier
+
+Each plan shows:
+- Configuration status (green checkmark if verified on Polar)
+- Product ID
+- Price (fetched from Polar)
 
 ### Authentication
 - Google OAuth via BetterAuth
-- Protected routes (/profile)
+- Avatar display in header when logged in
 - Session management (7-day expiration)
-- Automatic redirect after login
+- Dark mode support
 
-### Profile Page
-- User information display (name, email, avatar)
-- AI chatbot powered by OpenRouter
-- Logout functionality
-
-### Chatbot
-- Simple prompt input
-- Single response display (no history)
-- Disabled state when OpenRouter not configured
-- Loading and error states
+### AI Chatbot
+- Visible only when authenticated
+- Powered by OpenRouter API
+- Configurable model
+- Disabled state when not configured
 
 ## API Endpoints
 
 ### Status
-- `GET /api/status` - All services status
-- `GET /api/status/database` - PostgreSQL connection
-- `GET /api/status/auth` - BetterAuth configuration
-- `GET /api/status/polar` - Polar configuration
-- `GET /api/status/openrouter` - OpenRouter configuration
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/status` | All services status |
+| `GET /api/status/database` | PostgreSQL connection |
+| `GET /api/status/auth` | BetterAuth config |
+| `GET /api/status/polar` | Polar config |
+| `GET /api/status/openrouter` | OpenRouter config |
+| `GET /api/status/polar-products` | Verify all 3 products |
 
-### Authentication
-- `GET /api/auth/session` - Current session
-- `POST /api/auth/signin/google` - Initiate Google OAuth
-- `GET /api/auth/callback/google` - OAuth callback
-- `POST /api/auth/signout` - Sign out
+### Authentication (BetterAuth)
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/auth/get-session` | Current session |
+| `POST /api/auth/sign-in/social` | Initiate OAuth |
+| `POST /api/auth/sign-out` | Sign out |
+
+### Payments (Polar via BetterAuth)
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/auth/checkout/:slug` | Start checkout (basic/pro/elite) |
+| `GET /api/auth/portal` | Customer portal |
 
 ### Chat
-- `POST /api/chat` - Send prompt, get AI response
+| Endpoint | Description |
+|----------|-------------|
+| `POST /api/chat` | Send prompt, get AI response |
 
 ## Project Structure
 
 ```
-starter-kit/
-├── src/
-│   ├── app/              # Next.js app router pages
-│   │   ├── page.tsx      # Landing page
-│   │   ├── profile/      # Protected profile page
-│   │   └── api/          # API routes
-│   ├── components/       # React components
-│   ├── lib/              # Utilities and configurations
-│   └── db/               # Database schema and migrations
-├── docker-compose.yml    # Docker services
-├── .env.example          # Environment template
-├── feature_list.json     # Test cases for development
-└── init.sh               # Setup script
+src/
+├── app/
+│   ├── page.tsx              # Main page (status + pricing + chatbot)
+│   └── api/
+│       ├── auth/[...all]/    # BetterAuth routes
+│       ├── chat/             # OpenRouter chat
+│       └── status/           # Service status endpoints
+├── components/
+│   ├── Header.tsx            # Navigation + user avatar
+│   ├── StatusTable.tsx       # Service status display
+│   ├── PricingTable.tsx      # 3 plans with verification
+│   └── Chatbot.tsx           # AI assistant
+├── lib/
+│   ├── auth.ts               # BetterAuth + Polar config
+│   ├── auth-client.ts        # Client-side auth
+│   └── status.ts             # Status check utilities
+└── db/
+    ├── index.ts              # Drizzle client
+    └── schema.ts             # Database schema
 ```
 
 ## Development
 
 ```bash
-# Start development server
+# Start dev server
 npm run dev
 
-# Run database migrations
-npm run db:migrate
+# Generate migrations
+npx drizzle-kit generate
+
+# Push schema to DB
+npx drizzle-kit push
 
 # Build for production
 npm run build
-
-# Start production server
-npm start
 ```
 
-## Testing
+## Obtaining Credentials
 
-The project includes a comprehensive `feature_list.json` with 168 test cases covering:
-- Security and access control
-- Navigation integrity
-- Real data verification
-- Workflow completeness
-- Error handling
-- UI-backend integration
-- State persistence
-- Responsive design
-- Accessibility
-- Performance
+### Google OAuth
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add `http://localhost:3000/api/auth/callback/google` as authorized redirect URI
+
+### Polar
+1. Create account at [polar.sh](https://polar.sh/)
+2. Create an organization
+3. Go to Settings > Developers > Personal Access Tokens
+4. Create 3 products (Basic, Pro, Elite) and copy their IDs
+
+### OpenRouter
+1. Create account at [openrouter.ai](https://openrouter.ai/)
+2. Go to Keys and create an API key
 
 ## License
 
