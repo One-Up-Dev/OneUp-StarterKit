@@ -155,7 +155,7 @@
 
   {"category": "Q-Temporal", "description": "Session expiration time is 7 days from creation", "steps": ["Step 1: Create new session via login", "Step 2: Check session expires_at in database", "Step 3: Verify timestamp is ~7 days from now"], "passes": false},
   {"category": "Q-Temporal", "description": "Timestamps use consistent timezone handling", "steps": ["Step 1: Create user via OAuth", "Step 2: Check created_at timestamp", "Step 3: Verify timezone is UTC or consistent"], "passes": false},
-  {"category": "Q-Temporal", "description": "Chatbot responses include reasonable response time", "steps": ["Step 1: Send chatbot message", "Step 2: Measure time until response", "Step 3: Verify response within 30 seconds (reasonable)"], "passes": false},
+  {"category": "Q-Temporal", "description": "Chatbot responses include reasonable response time", "steps": ["Step 1: Send chatbot message", "Step 2: Measure time until response", "Step 3: Verify response within 30 seconds (reasonable)"], "passes": true},
   {"category": "Q-Temporal", "description": "Status check happens on each page load (not stale)", "steps": ["Step 1: Navigate to landing page", "Step 2: Note timestamp of network request", "Step 3: Refresh page", "Step 4: Verify new network request made"], "passes": true},
   {"category": "Q-Temporal", "description": "Session cookie has correct expiration", "steps": ["Step 1: Login and check session cookie", "Step 2: Verify cookie expiration aligns with session timeout"], "passes": false},
 
