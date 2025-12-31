@@ -21,15 +21,20 @@ export const sessions = pgTable("sessions", {
 
 export const accounts = pgTable("accounts", {
   id: uuid("id").primaryKey().defaultRandom(),
+  accountId: text("account_id").notNull(),
+  providerId: text("provider_id").notNull(),
   userId: uuid("user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
-  provider: varchar("provider", { length: 50 }).notNull(),
-  providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
-  expiresAt: timestamp("expires_at"),
+  idToken: text("id_token"),
+  accessTokenExpiresAt: timestamp("access_token_expires_at"),
+  refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+  scope: text("scope"),
+  password: text("password"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const verifications = pgTable("verifications", {
