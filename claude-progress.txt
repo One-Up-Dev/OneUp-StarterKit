@@ -6,7 +6,7 @@ A minimalist educational SaaS boilerplate with:
 - Google OAuth authentication via BetterAuth
 - Profile page with AI chatbot (OpenRouter)
 
-## Current Status: 101/168 tests passing (60.1%)
+## Current Status: 108/168 tests passing (64.3%)
 
 ---
 
