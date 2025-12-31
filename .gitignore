@@ -8,6 +8,7 @@ node_modules/
 out/
 build/
 dist/
+feature_list.json
 
 # Environment files
 .env
@@ -36,6 +37,7 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+.playwright-mcp
 
 # TypeScript
 *.tsbuildinfo
