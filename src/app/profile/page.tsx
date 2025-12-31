@@ -62,7 +62,13 @@ export default function ProfilePage() {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/sign-out", { method: "POST" });
+      await fetch("/api/auth/sign-out", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
       router.push("/");
     } catch (error) {
       console.error("Logout error:", error);

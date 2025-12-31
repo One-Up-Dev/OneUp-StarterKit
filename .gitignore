@@ -8,7 +8,6 @@ node_modules/
 out/
 build/
 dist/
-feature_list.json
 
 # Environment files
 .env
@@ -37,7 +36,6 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
-.playwright-mcp
 
 # TypeScript
 *.tsbuildinfo
@@ -54,3 +52,12 @@ coverage/
 
 # Docker volumes
 postgres-data/
+
+# Auto-claude -Builds
+feature_list.json
+app_spec.txt
+claude-progress.txt
+.playwright-mcp
+init.sh
+cleanup-dev
+.claude_settings.json
