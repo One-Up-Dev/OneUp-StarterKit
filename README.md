@@ -1,216 +1,312 @@
-# OneUp-StarterKit
+<p align="center">
+  <img src="public/logo.png" alt="OneUp Logo" width="150" height="150">
+</p>
 
-A minimalist SaaS boilerplate for building modern web applications. Features authentication, payments, and AI chatbot integration out of the box.
+<h1 align="center">OneUp Starter-Kit</h1>
 
-## Overview
+<p align="center">
+  <strong>Lance ton projet SaaS en quelques minutes, pas en quelques semaines.</strong>
+</p>
 
-A single-page application with:
-- **Status Dashboard** - Real-time verification of all service connections
-- **Pricing Table** - 3 configurable plans (Basic/Pro/Elite) with Polar integration
-- **AI Chatbot** - OpenRouter-powered assistant (visible when logged in)
-- **Google OAuth** - One-click authentication via BetterAuth
+<p align="center">
+  <a href="#-demarrage-rapide">Demarrage rapide</a> •
+  <a href="#-fonctionnalites">Fonctionnalites</a> •
+  <a href="#-configuration">Configuration</a> •
+  <a href="#-personnalisation">Personnalisation</a>
+</p>
 
-## Tech Stack
+---
 
-| Category | Technology |
-|----------|------------|
-| Frontend | Next.js 16+, React 18+, Tailwind CSS |
-| Backend | Next.js API Routes |
-| Database | PostgreSQL + Drizzle ORM |
-| Auth | BetterAuth + Google OAuth |
-| Payments | Polar (checkout, portal, webhooks) |
-| AI | OpenRouter API |
-| Infra | Docker + docker-compose |
+## C'est quoi ce projet ?
 
-## Quick Start
+Ce starter-kit te donne tout ce dont tu as besoin pour lancer une application SaaS moderne :
 
-### Prerequisites
-- Node.js 18+
-- Docker (for PostgreSQL) or a PostgreSQL instance
+- **Authentification** - Connexion Google en un clic
+- **Base de donnees** - PostgreSQL pret a l'emploi
+- **Paiements** - Integration Polar pour les abonnements
+- **Chatbot IA** - Assistant propulse par OpenRouter
+- **Interface** - Design moderne avec mode sombre
 
-### Installation
+---
+
+## Prerequis
+
+Avant de commencer, assure-toi d'avoir installe :
+
+| Outil | Version | Comment verifier | Comment installer |
+|-------|---------|------------------|-------------------|
+| **Node.js** | 18+ | `node --version` | [nodejs.org](https://nodejs.org/) |
+| **Docker** | Latest | `docker --version` | [docker.com](https://www.docker.com/get-started/) |
+| **Git** | Latest | `git --version` | [git-scm.com](https://git-scm.com/) |
+
+> **Tu debutes ?** Docker permet de lancer PostgreSQL sans l'installer sur ton PC. C'est comme une "boite" qui contient la base de donnees.
+
+---
+
+## Demarrage rapide
+
+### Etape 1 : Telecharge le projet
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/One-Up-Dev/OneUp-StarterKit.git
 cd OneUp-StarterKit
+```
 
-# 2. Install dependencies
+### Etape 2 : Installe les dependances
+
+```bash
 npm install
+```
 
-# 3. Setup environment variables
+> Cette commande telecharge toutes les librairies necessaires. Ca peut prendre 1-2 minutes.
+
+### Etape 3 : Configure l'environnement
+
+```bash
 cp .env.example .env
-# Edit .env with your credentials (see Environment Variables section)
+```
 
-# 4. Start PostgreSQL (using Docker)
+> Cette commande copie le fichier de configuration exemple. Tu pourras le modifier plus tard.
+
+### Etape 4 : Lance la base de donnees
+
+```bash
 docker-compose up -d
+```
 
-# 5. Apply database schema
+> Cette commande demarre PostgreSQL en arriere-plan. Le `-d` signifie "detached" (en arriere-plan).
+
+**Verifie que ca marche :**
+```bash
+docker ps
+```
+Tu devrais voir `oneup-starterkit-postgres` dans la liste.
+
+### Etape 5 : Cree les tables
+
+```bash
 npm run db:push
+```
 
-# 6. Start the dev server
+> Cette commande cree toutes les tables necessaires dans la base de donnees.
+
+### Etape 6 : Lance l'application
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:3000
+**Ouvre ton navigateur sur** [http://localhost:3000](http://localhost:3000)
 
-### Docker Commands
-```bash
-docker-compose up -d      # Start PostgreSQL
-docker-compose down       # Stop PostgreSQL
-docker-compose logs -f    # View logs
+---
+
+## Ca y est !
+
+Tu devrais voir le dashboard avec :
+- Un tableau de statut (certains seront rouges, c'est normal)
+- Une table de pricing
+- Un bouton de connexion (desactive pour l'instant)
+
+---
+
+## Configuration
+
+### Configuration minimale (pour tester)
+
+Avec juste Docker et les commandes ci-dessus, tu peux deja :
+- Voir l'interface
+- Verifier que la base de donnees fonctionne (statut vert)
+
+### Configuration complete (pour la production)
+
+Edite le fichier `.env` pour activer toutes les fonctionnalites :
+
+#### 1. Base de donnees (deja configure)
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/oneup-starterkit
 ```
 
-## Environment Variables
-
-Create a `.env` file (copy from `.env.example`):
+#### 2. Authentification Google
 
 ```env
-# Database (works out of the box with docker-compose)
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/oneup-starterkit
-
-# BetterAuth
-BETTER_AUTH_SECRET=your-secret-key
+BETTER_AUTH_SECRET=une-cle-secrete-aleatoire
 BETTER_AUTH_URL=http://localhost:3000
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CLIENT_ID=ton-client-id-google
+GOOGLE_CLIENT_SECRET=ton-client-secret-google
+```
 
-# Polar
-POLAR_ACCESS_TOKEN=your-polar-access-token
+<details>
+<summary><strong>Comment obtenir les identifiants Google ?</strong></summary>
+
+1. Va sur [Google Cloud Console](https://console.cloud.google.com/)
+2. Cree un nouveau projet (ou selectionne un existant)
+3. Va dans **APIs & Services** > **Credentials**
+4. Clique **Create Credentials** > **OAuth client ID**
+5. Choisis **Web application**
+6. Ajoute `http://localhost:3000/api/auth/callback/google` dans **Authorized redirect URIs**
+7. Copie le **Client ID** et **Client Secret**
+
+</details>
+
+#### 3. Paiements Polar
+
+```env
+POLAR_ACCESS_TOKEN=ton-token-polar
 POLAR_ENVIRONMENT=sandbox
-POLAR_WEBHOOK_SECRET=your-polar-webhook-secret
+POLAR_WEBHOOK_SECRET=ton-webhook-secret
+POLAR_PRODUCT_BASIC=id-produit-basic
+POLAR_PRODUCT_PRO=id-produit-pro
+POLAR_PRODUCT_ELITE=id-produit-elite
+```
 
-# Polar Product IDs (from Polar Dashboard)
-POLAR_PRODUCT_BASIC=your-basic-product-id
-POLAR_PRODUCT_PRO=your-pro-product-id
-POLAR_PRODUCT_ELITE=your-elite-product-id
+<details>
+<summary><strong>Comment configurer Polar ?</strong></summary>
 
-# OpenRouter
-OPENROUTER_API_KEY=your-openrouter-api-key
+1. Cree un compte sur [polar.sh](https://polar.sh/)
+2. Cree une organisation
+3. Va dans **Settings** > **Developers** > **Personal Access Tokens**
+4. Cree 3 produits (Basic, Pro, Elite) et copie leurs IDs
+
+</details>
+
+#### 4. Chatbot IA
+
+```env
+OPENROUTER_API_KEY=ta-cle-api-openrouter
 OPENROUTER_MODEL=openai/gpt-3.5-turbo
 ```
 
-## Features
+<details>
+<summary><strong>Comment obtenir une cle OpenRouter ?</strong></summary>
 
-### Status Dashboard
-Real-time connection status for all services:
-- PostgreSQL database
-- BetterAuth (Google OAuth)
-- Polar payments
-- OpenRouter API
+1. Cree un compte sur [openrouter.ai](https://openrouter.ai/)
+2. Va dans **Keys** et cree une nouvelle cle API
 
-### Pricing Table
-Three configurable plans with live verification:
-- **Basic** - Entry tier
-- **Pro** - Professional tier
-- **Elite** - Enterprise tier
+</details>
 
-Each plan shows:
-- Configuration status (green checkmark if verified on Polar)
-- Product ID
-- Price (fetched from Polar)
+---
 
-### Authentication
-- Google OAuth via BetterAuth
-- Avatar display in header when logged in
-- Session management (7-day expiration)
-- Dark mode support
+## Personnalisation
 
-### AI Chatbot
-- Visible only when authenticated
-- Powered by OpenRouter API
-- Configurable model
-- Disabled state when not configured
+### Changer le logo
 
-## API Endpoints
+Remplace le fichier `public/logo.png` par ton propre logo.
 
-### Status
-| Endpoint | Description |
+Le logo apparait :
+- Dans le header de l'application (36x36px)
+- Dans ce README
+
+### Changer le nom
+
+1. Modifie `Starter-Kit` dans `src/components/Header.tsx`
+2. Modifie le titre dans `src/app/layout.tsx`
+
+### Changer les couleurs
+
+Les couleurs utilisent Tailwind CSS. Les principales sont :
+- `blue-500` / `blue-600` - Couleur principale
+- `gray-*` - Couleurs neutres
+
+---
+
+## Commandes utiles
+
+| Commande | Description |
 |----------|-------------|
-| `GET /api/status` | All services status |
-| `GET /api/status/database` | PostgreSQL connection |
-| `GET /api/status/auth` | BetterAuth config |
-| `GET /api/status/polar` | Polar config |
-| `GET /api/status/openrouter` | OpenRouter config |
-| `GET /api/status/polar-products` | Verify all 3 products |
+| `npm run dev` | Lance le serveur de developpement |
+| `npm run build` | Compile pour la production |
+| `npm run start` | Lance en mode production |
+| `docker-compose up -d` | Demarre PostgreSQL |
+| `docker-compose down` | Arrete PostgreSQL |
+| `docker-compose logs -f` | Voir les logs PostgreSQL |
+| `npm run db:push` | Applique le schema a la DB |
+| `npm run db:studio` | Interface web pour la DB |
 
-### Authentication (BetterAuth)
-| Endpoint | Description |
-|----------|-------------|
-| `GET /api/auth/get-session` | Current session |
-| `POST /api/auth/sign-in/social` | Initiate OAuth |
-| `POST /api/auth/sign-out` | Sign out |
+---
 
-### Payments (Polar via BetterAuth)
-| Endpoint | Description |
-|----------|-------------|
-| `GET /api/auth/checkout/:slug` | Start checkout (basic/pro/elite) |
-| `GET /api/auth/portal` | Customer portal |
-
-### Chat
-| Endpoint | Description |
-|----------|-------------|
-| `POST /api/chat` | Send prompt, get AI response |
-
-## Project Structure
+## Structure du projet
 
 ```
-src/
-├── app/
-│   ├── page.tsx              # Main page (status + pricing + chatbot)
-│   └── api/
-│       ├── auth/[...all]/    # BetterAuth routes
-│       ├── chat/             # OpenRouter chat
-│       └── status/           # Service status endpoints
-├── components/
-│   ├── Header.tsx            # Navigation + user avatar
-│   ├── StatusTable.tsx       # Service status display
-│   ├── PricingTable.tsx      # 3 plans with verification
-│   └── Chatbot.tsx           # AI assistant
-├── lib/
-│   ├── auth.ts               # BetterAuth + Polar config
-│   ├── auth-client.ts        # Client-side auth
-│   └── status.ts             # Status check utilities
-└── db/
-    ├── index.ts              # Drizzle client
-    └── schema.ts             # Database schema
+OneUp-StarterKit/
+├── public/
+│   └── logo.png          # <- Ton logo ici
+├── src/
+│   ├── app/              # Pages et API routes
+│   │   ├── page.tsx      # Page principale
+│   │   └── api/          # Endpoints API
+│   ├── components/       # Composants React
+│   │   ├── Header.tsx    # <- Modifie le header ici
+│   │   ├── StatusTable.tsx
+│   │   ├── PricingTable.tsx
+│   │   └── Chatbot.tsx
+│   ├── db/               # Base de donnees
+│   │   ├── index.ts      # Connexion
+│   │   └── schema.ts     # Structure des tables
+│   └── lib/              # Utilitaires
+│       ├── auth.ts       # Configuration auth
+│       └── status.ts     # Verification des services
+├── drizzle/              # Migrations SQL
+├── .env.example          # Template des variables
+├── docker-compose.yml    # Configuration Docker
+└── package.json          # Dependances
 ```
 
-## Development
+---
 
+## Problemes courants
+
+### "ECONNREFUSED" ou "Connection refused"
+
+**Probleme** : La base de donnees n'est pas demarree.
+
+**Solution** :
 ```bash
-# Start dev server
-npm run dev
-
-# Generate migrations
-npx drizzle-kit generate
-
-# Push schema to DB
-npx drizzle-kit push
-
-# Build for production
-npm run build
+docker-compose up -d
+docker ps  # Verifie que le container tourne
 ```
 
-## Obtaining Credentials
+### "Port 5432 already in use"
 
-### Google OAuth
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials
-5. Add `http://localhost:3000/api/auth/callback/google` as authorized redirect URI
+**Probleme** : Un autre PostgreSQL tourne deja sur ce port.
 
-### Polar
-1. Create account at [polar.sh](https://polar.sh/)
-2. Create an organization
-3. Go to Settings > Developers > Personal Access Tokens
-4. Create 3 products (Basic, Pro, Elite) and copy their IDs
+**Solution** :
+```bash
+# Arrete l'autre instance
+docker stop $(docker ps -q --filter "publish=5432")
+# Puis relance
+docker-compose up -d
+```
 
-### OpenRouter
-1. Create account at [openrouter.ai](https://openrouter.ai/)
-2. Go to Keys and create an API key
+### Le bouton "Se connecter" est grise
 
-## License
+**Probleme** : Les identifiants Google ne sont pas configures.
 
-MIT
+**Solution** : Configure `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans `.env`
+
+---
+
+## Tech Stack
+
+| Categorie | Technologie |
+|-----------|-------------|
+| Frontend | Next.js 16, React 19, Tailwind CSS 4 |
+| Backend | Next.js API Routes |
+| Database | PostgreSQL 16 + Drizzle ORM |
+| Auth | BetterAuth + Google OAuth |
+| Paiements | Polar |
+| IA | OpenRouter API |
+| Infra | Docker |
+
+---
+
+## Besoin d'aide ?
+
+- Ouvre une [issue sur GitHub](https://github.com/One-Up-Dev/OneUp-StarterKit/issues)
+- Consulte la [documentation Next.js](https://nextjs.org/docs)
+- Consulte la [documentation Drizzle](https://orm.drizzle.team/docs/overview)
+
+---
+
+<p align="center">
+  <strong>Fait avec par OneUp</strong>
+</p>

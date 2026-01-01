@@ -95,9 +95,17 @@ export default function Header({
       <div className="mx-auto flex h-16 max-w-2xl items-center justify-between px-4">
         <Link
           href="/"
-          className="text-xl font-semibold text-gray-900 hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
+          className="flex items-center gap-2 text-xl font-semibold text-gray-900 hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
         >
-          Starter-Kit
+          {/* Logo - Replace /logo.png with your own logo */}
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={36}
+            height={36}
+            className="rounded-lg"
+          />
+          <span>Starter-Kit</span>
         </Link>
 
         <div className="flex items-center gap-3">
