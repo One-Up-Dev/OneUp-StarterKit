@@ -13,6 +13,8 @@ interface ProductStatus {
 
 interface PolarProductsStatus {
   polarConnected: boolean;
+  tokenValid: boolean;
+  tokenError?: string;
   products: ProductStatus[];
 }
 
