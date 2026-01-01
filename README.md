@@ -29,9 +29,6 @@ A single-page application with:
 git clone https://github.com/One-Up-Dev/OneUp-StarterKit.git
 cd OneUp-StarterKit
 
-# Run setup script
-./init.sh
-
 # Or manually:
 docker-compose up -d
 npm install
@@ -46,7 +43,7 @@ Create a `.env` file (copy from `.env.example`):
 
 ```env
 # Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5434/starterkit
+DATABASE_URL=postgresql://username:password@localhost:5432/starterkit
 
 # BetterAuth
 BETTER_AUTH_SECRET=your-secret-key
