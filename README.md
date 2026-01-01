@@ -24,26 +24,50 @@ A single-page application with:
 
 ## Quick Start
 
+### Prerequisites
+- Node.js 18+
+- Docker (for PostgreSQL) or a PostgreSQL instance
+
+### Installation
+
 ```bash
-# Clone the repo
+# 1. Clone the repo
 git clone https://github.com/One-Up-Dev/OneUp-StarterKit.git
 cd OneUp-StarterKit
 
-# Or manually:
-docker-compose up -d
+# 2. Install dependencies
 npm install
+
+# 3. Setup environment variables
+cp .env.example .env
+# Edit .env with your credentials (see Environment Variables section)
+
+# 4. Start PostgreSQL (using Docker)
+docker-compose up -d
+
+# 5. Apply database schema
+npm run db:push
+
+# 6. Start the dev server
 npm run dev
 ```
 
 Open http://localhost:3000
+
+### Docker Commands
+```bash
+docker-compose up -d      # Start PostgreSQL
+docker-compose down       # Stop PostgreSQL
+docker-compose logs -f    # View logs
+```
 
 ## Environment Variables
 
 Create a `.env` file (copy from `.env.example`):
 
 ```env
-# Database
-DATABASE_URL=postgresql://username:password@localhost:5432/starterkit
+# Database (works out of the box with docker-compose)
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/oneup-starterkit
 
 # BetterAuth
 BETTER_AUTH_SECRET=your-secret-key

@@ -6,6 +6,7 @@
  */
 
 import { drizzle } from "drizzle-orm/node-postgres";
+import { eq } from "drizzle-orm";
 import { Pool } from "pg";
 import * as schema from "../src/db/schema";
 import { randomUUID } from "crypto";
@@ -24,12 +25,7 @@ async function createTestSession() {
     const existingUsers = await db
       .select()
       .from(schema.users)
-      .where(
-        // @ts-expect-error - drizzle typing
-        schema.users.email.eq
-          ? schema.users.email.eq("test@example.com")
-          : undefined,
-      )
+      .where(eq(schema.users.email, "test@example.com"))
       .limit(1);
 
     let userId: string;
@@ -39,12 +35,14 @@ async function createTestSession() {
       console.log("Using existing test user:", userId);
     } else {
       // Create test user
+      const newUserId = randomUUID();
       const [newUser] = await db
         .insert(schema.users)
         .values({
+          id: newUserId,
           email: "test@example.com",
           name: "Test User",
-          avatarUrl:
+          image:
             "https://ui-avatars.com/api/?name=Test+User&background=3B82F6&color=fff",
         })
         .returning();
@@ -54,9 +52,10 @@ async function createTestSession() {
 
       // Create account record
       await db.insert(schema.accounts).values({
+        id: randomUUID(),
         userId: userId,
-        provider: "google",
-        providerAccountId: "test-google-id-" + randomUUID(),
+        providerId: "google",
+        accountId: "test-google-id-" + randomUUID(),
       });
       console.log("Created test account");
     }
@@ -68,6 +67,7 @@ async function createTestSession() {
     await db
       .insert(schema.sessions)
       .values({
+        id: randomUUID(),
         userId: userId,
         token: sessionToken,
         expiresAt: expiresAt,

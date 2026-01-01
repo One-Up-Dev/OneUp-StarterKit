@@ -8,6 +8,20 @@
       "when": 1767192014300,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767233977599,
+      "tag": "0001_nostalgic_mentor",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767283767617,
+      "tag": "0002_bizarre_pestilence",
+      "breakpoints": true
     }
   ]
 }

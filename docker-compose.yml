@@ -1,10 +1,10 @@
 services:
   postgres:
-    image: postgres:15-alpine
-    container_name: starterkit-postgres
+    image: postgres:16-alpine
+    container_name: oneup-starterkit-postgres
     environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: oneup-starterkit
     ports:
       - "5432:5432"

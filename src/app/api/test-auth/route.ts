@@ -69,27 +69,30 @@ export async function POST(request: NextRequest) {
         "https://ui-avatars.com/api/?name=Test+User&background=3B82F6&color=fff";
 
       if (existingUser.length === 0) {
+        const newUserId = randomUUID();
         const [newUser] = await db
           .insert(schema.users)
           .values({
+            id: newUserId,
             email: userEmail,
             name: userName,
-            avatarUrl: userAvatar,
+            image: userAvatar,
           })
           .returning();
         userId = newUser.id;
 
         // Create account record
         await db.insert(schema.accounts).values({
+          id: randomUUID(),
           userId: userId,
-          provider: "google",
-          providerAccountId: "test-google-id-" + randomUUID(),
+          providerId: "google",
+          accountId: "test-google-id-" + randomUUID(),
         });
       } else {
         userId = existingUser[0].id;
         userName = existingUser[0].name || userName;
         userEmail = existingUser[0].email;
-        userAvatar = existingUser[0].avatarUrl || userAvatar;
+        userAvatar = existingUser[0].image || userAvatar;
       }
 
       // Create session
@@ -97,6 +100,7 @@ export async function POST(request: NextRequest) {
       const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
       await db.insert(schema.sessions).values({
+        id: randomUUID(),
         userId: userId,
         token: sessionToken,
         expiresAt: expiresAt,
@@ -115,7 +119,7 @@ export async function POST(request: NextRequest) {
           id: userId,
           email: userEmail,
           name: userName,
-          avatarUrl: userAvatar,
+          image: userAvatar,
         },
         sessionToken,
         signedCookieValue,
