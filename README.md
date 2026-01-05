@@ -77,10 +77,11 @@ Lance `/project-setup` et laisse l'agent te guider.
 
 ## Agents disponibles
 
-Le starter-kit inclut 3 agents pour automatiser le developpement:
+Le starter-kit inclut 4 agents pour automatiser le developpement:
 
 | Agent | Role | Modele |
 |-------|------|--------|
+| `frontend-design` | Design system et composants UI | sonnet |
 | `coder` | Implemente le code | opus |
 | `tester` | Tests visuels Playwright | sonnet |
 | `stuck` | Escalade vers humain | sonnet |
@@ -88,8 +89,16 @@ Le starter-kit inclut 3 agents pour automatiser le developpement:
 ### Workflow
 
 ```
-coder (implemente) -> tester (valide) -> stuck (si probleme)
+frontend-design (specs) -> coder (implemente) -> tester (valide) -> stuck (si probleme)
 ```
+
+### frontend-design
+
+Deux modes:
+- **Mode 1**: Genere le design system complet (couleurs, typo, spacing)
+- **Mode 2**: Genere specs + code pour un composant specifique
+
+Utilise le catalogue `.claude/design-patterns/catalog.md`.
 
 Les agents sont dans `.claude/agents/`.
 
@@ -158,8 +167,9 @@ OPENROUTER_MODEL=openai/gpt-3.5-turbo
 ```
 OneUp-StarterKit/
 ├── .claude/
-│   ├── agents/              # Agents (coder, tester, stuck)
-│   └── commands/            # Slash commands (/project-setup)
+│   ├── agents/              # Agents (frontend-design, coder, tester, stuck)
+│   ├── commands/            # Slash commands (/project-setup)
+│   └── design-patterns/     # Catalogue UI (layouts, components, sections)
 ├── src/
 │   ├── app/                 # Pages et API
 │   │   └── setup/           # Wizard de configuration

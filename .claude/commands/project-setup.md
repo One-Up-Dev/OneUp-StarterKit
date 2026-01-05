@@ -45,6 +45,7 @@ Derniere mise a jour: [DATE]
 
 ### Installation
 - [ ] Design system installe
+- [ ] Design tokens generes (frontend-design Mode 1)
 - [ ] Dependances features installees
 
 ### Features
@@ -106,6 +107,40 @@ Selon le `designSystem` dans la config:
 
 ---
 
+## ETAPE 3.5: Generation du Design System (Agent frontend-design)
+
+Appelle l'agent `frontend-design` en **Mode 1** pour generer le design system complet.
+
+### Input pour l'agent:
+```
+Mode: Design System Generation
+Config: oneup.config.json
+- identity.primaryColor
+- design.library
+- design.style
+```
+
+### Output attendu:
+```
+src/
+├── styles/
+│   └── globals.css          # Variables CSS (couleurs, typography)
+├── lib/
+│   └── design-tokens.ts     # Tokens TypeScript
+└── tailwind.config.ts       # Configuration Tailwind mise a jour
+```
+
+### Ce que l'agent genere:
+1. **Palette de couleurs** - Du primaryColor (50-950 nuances)
+2. **Tokens semantiques** - background, foreground, muted, border
+3. **Typographie** - Echelle de tailles, poids, line-heights
+4. **Espacements** - Systeme 4px base unit
+5. **Dark mode** - Variables pour les deux themes
+
+**Apres generation:** Met a jour SETUP-PROGRESS.md
+
+---
+
 ## ETAPE 4: Generation des features
 
 Pour chaque feature dans `config.features`, genere les fichiers necessaires.
@@ -126,15 +161,22 @@ src/
 
 ### Workflow recommande avec agents (si disponibles):
 
-Si tu as acces aux agents `coder`, `tester`, `stuck`:
+Si tu as acces aux agents `coder`, `tester`, `stuck`, `frontend-design`:
 
 ```
 Pour chaque feature:
-1. Appelle l'agent `coder` pour implementer
-2. Appelle l'agent `tester` pour valider visuellement
-3. Si probleme → l'agent `stuck` demande a l'humain
-4. Met a jour SETUP-PROGRESS.md
+1. Si UI complexe → Appelle `frontend-design` (Mode 2) pour obtenir specs + code
+2. Appelle `coder` pour implementer (utilise le code de frontend-design si fourni)
+3. Appelle `tester` pour valider visuellement
+4. Si probleme → l'agent `stuck` demande a l'humain
+5. Met a jour SETUP-PROGRESS.md
 ```
+
+### Quand appeler frontend-design (Mode 2):
+- Composants UI complexes (pricing, dashboard, landing sections)
+- Besoin de variantes (sizes, colors, states)
+- Integration avec le design system
+- Accessibilite critique
 
 Sans agents, implemente directement en suivant les templates ci-dessous.
 
@@ -783,11 +825,15 @@ Une fois termine:
 1. **Met a jour SETUP-PROGRESS.md** avec toutes les cases cochees
 2. **Resume** les fichiers crees
 3. **Liste** les prochaines etapes manuelles si necessaires
-4. **Propose** d'utiliser le plugin `frontend-design` pour ameliorer le design
+4. **Propose** d'utiliser l'agent `frontend-design` pour creer des composants supplementaires
 
 ### Format du rapport:
 ```
 ## Generation terminee
+
+### Design System
+- Palette: [couleurs generees]
+- Style: [minimal/corporate/playful/elegant]
 
 ### Fichiers crees
 - [liste des fichiers]
@@ -798,7 +844,7 @@ Une fois termine:
 ### Prochaines etapes
 1. Configurer les variables d'environnement manquantes
 2. Personnaliser les textes et contenus
-3. Utiliser /frontend-design pour ameliorer le design
+3. Appeler l'agent `frontend-design` pour des composants additionnels
 4. Tester manuellement les fonctionnalites
 ```
 
