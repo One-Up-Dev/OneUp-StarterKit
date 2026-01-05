@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 
-interface ChatbotProps {
-  enabled: boolean;
+interface KnowledgeBaseConfig {
+  content: string;
+  restrictToContent: boolean;
 }
 
-export default function Chatbot({ enabled }: ChatbotProps) {
+interface ChatbotProps {
+  enabled: boolean;
+  knowledgeBase?: KnowledgeBaseConfig;
+}
+
+export default function Chatbot({ enabled, knowledgeBase }: ChatbotProps) {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,12 +27,21 @@ export default function Chatbot({ enabled }: ChatbotProps) {
     setError(null);
 
     try {
+      const requestBody: { prompt: string; knowledgeBase?: KnowledgeBaseConfig } = {
+        prompt: prompt.trim(),
+      };
+
+      // Ajouter la knowledge base si presente
+      if (knowledgeBase?.content) {
+        requestBody.knowledgeBase = knowledgeBase;
+      }
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: prompt.trim() }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!res.ok) {
@@ -68,9 +83,19 @@ export default function Chatbot({ enabled }: ChatbotProps) {
         </div>
       )}
 
-      <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-        Assistant IA
-      </h2>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Assistant IA
+        </h2>
+        {knowledgeBase?.content && (
+          <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Base de connaissances active
+          </span>
+        )}
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

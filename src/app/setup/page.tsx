@@ -273,7 +273,9 @@ export default function SetupWizard() {
               <StepFeatures
                 selectedFeatures={config.features}
                 recommendedFeatures={recommendedFeatures}
+                knowledgeBase={config.knowledgeBase}
                 onChange={(features) => setConfig({ ...config, features })}
+                onKnowledgeBaseChange={(knowledgeBase) => setConfig({ ...config, knowledgeBase })}
                 onAskAI={(question) => {
                   setShowAI(true);
                   handleAISendMessage(question);

@@ -40,6 +40,10 @@ export function getDefaultConfig(): ProjectConfig {
       enabled: false,
       answers: [],
     },
+    knowledgeBase: {
+      enabled: false,
+      restrictToContent: true,
+    },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

@@ -1,21 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { FeatureCategory } from "@/lib/setup/types";
+import { FeatureCategory, KnowledgeBase } from "@/lib/setup/types";
 import { getFeaturesByCategory, categoryLabels } from "@/lib/setup/features";
 import FeatureCard from "./FeatureCard";
+import KnowledgeBaseUpload from "./KnowledgeBaseUpload";
 
 interface StepFeaturesProps {
   selectedFeatures: string[];
   recommendedFeatures: string[];
+  knowledgeBase: KnowledgeBase;
   onChange: (features: string[]) => void;
+  onKnowledgeBaseChange: (knowledgeBase: KnowledgeBase) => void;
   onAskAI: (question: string) => void;
 }
 
 export default function StepFeatures({
   selectedFeatures,
   recommendedFeatures,
+  knowledgeBase,
   onChange,
+  onKnowledgeBaseChange,
   onAskAI,
 }: StepFeaturesProps) {
   const [activeCategory, setActiveCategory] = useState<FeatureCategory | "all">("all");
@@ -188,6 +193,14 @@ export default function StepFeatures({
             Aucune fonctionnalite ne correspond a votre recherche
           </p>
         </div>
+      )}
+
+      {/* Knowledge Base upload - visible when ai-assistant is selected */}
+      {selectedFeatures.includes("ai-assistant") && (
+        <KnowledgeBaseUpload
+          knowledgeBase={knowledgeBase}
+          onChange={onKnowledgeBaseChange}
+        />
       )}
     </div>
   );

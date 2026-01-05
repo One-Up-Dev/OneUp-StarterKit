@@ -34,6 +34,21 @@ export interface ContextAnswer {
   answer: string;
 }
 
+// Knowledge Base pour le chatbot RAG
+export interface KnowledgeBase {
+  enabled: boolean;
+  file?: KnowledgeFile;
+  restrictToContent: boolean; // Si true, ne repond qu'aux questions liees au contenu
+}
+
+export interface KnowledgeFile {
+  name: string;
+  type: string;
+  size: number;
+  content: string; // Contenu textuel extrait
+  uploadedAt: string;
+}
+
 // Questions contextuelles predefinies
 export interface ContextQuestion {
   id: string;
@@ -98,6 +113,7 @@ export interface ProjectConfig {
   product: ProductConfig;
   assets: ProjectAssets;
   context: ProjectContext;
+  knowledgeBase: KnowledgeBase;
   createdAt: string;
   updatedAt: string;
 }
