@@ -96,10 +96,10 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
               key={type}
               type="button"
               onClick={() => handleTypeChange(type)}
-              className={`rounded-xl border-2 p-4 text-left transition-all ${
+              className={`border p-4 text-left transition-all ${
                 product.type === type
-                  ? "border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/20"
-                  : "border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600"
+                  ? "border-gray-900 bg-gray-50 dark:border-white dark:bg-gray-800"
+                  : "border-gray-200 bg-white hover:border-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-500"
               }`}
             >
               <h4 className="font-semibold text-gray-900 dark:text-white">
@@ -122,7 +122,7 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
           <button
             type="button"
             onClick={addTier}
-            className="flex items-center gap-1 rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            className="flex items-center gap-1 border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-900 dark:border-gray-600 dark:text-gray-300 dark:hover:border-white"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -135,14 +135,14 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
           {product.tiers.map((tier, tierIndex) => (
             <div
               key={tierIndex}
-              className="relative rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800"
+              className="relative border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800"
             >
               {/* Remove button */}
               {product.tiers.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeTier(tierIndex)}
-                  className="absolute right-2 top-2 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                  className="absolute right-2 top-2 p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                 >
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -170,7 +170,7 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
                       type="number"
                       value={tier.price}
                       onChange={(e) => handleTierChange(tierIndex, "price", parseFloat(e.target.value) || 0)}
-                      className="w-24 rounded-lg border border-gray-300 px-3 py-2 text-xl font-bold text-gray-900 focus:border-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                      className="w-24 border border-gray-300 px-3 py-2 text-xl font-bold text-gray-900 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-white"
                       min="0"
                     />
                     <span className="ml-2 text-gray-600 dark:text-gray-400">EUR</span>
@@ -181,7 +181,7 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
                   <select
                     value={tier.interval || "month"}
                     onChange={(e) => handleTierChange(tierIndex, "interval", e.target.value as "month" | "year")}
-                    className="rounded-lg border border-gray-300 px-3 py-2 text-gray-700 focus:border-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                    className="border border-gray-300 px-3 py-2 text-gray-700 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:focus:border-white"
                   >
                     <option value="month">/mois</option>
                     <option value="year">/an</option>

@@ -12,11 +12,11 @@ import StepSummary from "./components/StepSummary";
 import AIAssistant from "./components/AIAssistant";
 
 const WIZARD_STEPS: WizardStep[] = [
-  { id: 1, name: "Identite", description: "Nom et branding", icon: "🎨", completed: false },
-  { id: 2, name: "Fonctionnalites", description: "Choisir les features", icon: "⚡", completed: false },
-  { id: 3, name: "Produit", description: "Type et tarification", icon: "💰", completed: false },
-  { id: 4, name: "Design", description: "Systeme UI", icon: "🎯", completed: false },
-  { id: 5, name: "Resume", description: "Valider et generer", icon: "🚀", completed: false },
+  { id: 1, name: "Identite", description: "Nom et branding", icon: "1", completed: false },
+  { id: 2, name: "Fonctionnalites", description: "Choisir les features", icon: "2", completed: false },
+  { id: 3, name: "Produit", description: "Type et tarification", icon: "3", completed: false },
+  { id: 4, name: "Design", description: "Systeme UI", icon: "4", completed: false },
+  { id: 5, name: "Resume", description: "Valider et generer", icon: "5", completed: false },
 ];
 
 export default function SetupWizard() {
@@ -176,22 +176,26 @@ export default function SetupWizard() {
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="max-w-lg text-center">
-          <div className="mb-6 text-6xl">🎉</div>
+          <div className="mb-6 flex h-16 w-16 mx-auto items-center justify-center border-2 border-green-500 text-green-500">
+            <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
           <h1 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
-            Configuration terminee !
+            Configuration terminee
           </h1>
           <p className="mb-8 text-gray-600 dark:text-gray-400">
-            Votre configuration a ete sauvegardee dans <code className="rounded bg-gray-100 px-2 py-1 dark:bg-gray-700">oneup.config.json</code>.
-            Utilisez maintenant Claude Code avec la commande <code className="rounded bg-gray-100 px-2 py-1 dark:bg-gray-700">/project-setup</code> pour generer votre projet.
+            Votre configuration a ete sauvegardee dans <code className="bg-gray-100 px-2 py-1 dark:bg-gray-700">oneup.config.json</code>.
+            Utilisez maintenant Claude Code avec la commande <code className="bg-gray-100 px-2 py-1 dark:bg-gray-700">/project-setup</code> pour generer votre projet.
           </p>
           <div className="space-y-4">
-            <div className="rounded-xl bg-gray-900 p-4 text-left font-mono text-sm text-green-400">
+            <div className="bg-gray-900 p-4 text-left font-mono text-sm text-green-400">
               <p className="text-gray-500"># Dans votre terminal Claude Code:</p>
               <p>/project-setup</p>
             </div>
             <a
               href="/"
-              className="inline-block rounded-lg bg-blue-500 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600"
+              className="inline-block border border-gray-900 bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800 dark:border-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
             >
               Retour a l&apos;accueil
             </a>
@@ -221,13 +225,12 @@ export default function SetupWizard() {
             </div>
             <button
               onClick={() => setShowAI(!showAI)}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
                 showAI
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                  ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
+                  : "border border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
               }`}
             >
-              <span>🤖</span>
               Assistant IA
             </button>
           </div>
@@ -281,7 +284,7 @@ export default function SetupWizard() {
               <button
                 onClick={handlePrevious}
                 disabled={currentStep === 1}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="flex items-center gap-2 border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -291,7 +294,7 @@ export default function SetupWizard() {
               <button
                 onClick={handleNext}
                 disabled={!canProceed()}
-                className="flex items-center gap-2 rounded-lg bg-blue-500 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex items-center gap-2 bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
               >
                 Suivant
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,7 +314,7 @@ export default function SetupWizard() {
               <span className="font-semibold text-gray-900 dark:text-white">Assistant</span>
               <button
                 onClick={() => setShowAI(false)}
-                className="rounded-lg p-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

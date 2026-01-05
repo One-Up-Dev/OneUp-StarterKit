@@ -93,9 +93,8 @@ export default function Home() {
           {user && (
             <a
               href="/setup"
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-medium text-white shadow-lg transition-all hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+              className="mt-4 inline-flex items-center gap-2 border border-gray-900 bg-gray-900 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-gray-800 dark:border-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
             >
-              <span>🚀</span>
               Configurer mon projet
             </a>
           )}
