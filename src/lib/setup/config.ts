@@ -100,6 +100,7 @@ export const pricingTemplates: Record<ProductType, PricingTier[]> = {
       features: ["10 000 requetes incluses", "0.005 EUR au-dela", "Support prioritaire"],
     },
   ],
+  none: [],
 };
 
 // Labels des types de produits en francais
@@ -119,6 +120,10 @@ export const productTypeLabels: Record<ProductType, { name: string; description:
   "usage-based": {
     name: "A l'usage",
     description: "Facturation basee sur la consommation",
+  },
+  none: {
+    name: "Pas de paiement",
+    description: "Landing page, portfolio, site vitrine",
   },
 };
 

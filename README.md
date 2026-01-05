@@ -1,59 +1,49 @@
-<p align="center">
-  <img src="public/logo.png" alt="OneUp Logo" width="150" height="150">
-</p>
+# OneUp Starter-Kit
 
-<h1 align="center">OneUp Starter-Kit</h1>
-
-<p align="center">
-  <strong>Lance ton projet SaaS en quelques minutes, pas en quelques semaines.</strong>
-</p>
+**Lance ton projet SaaS en quelques minutes, pas en quelques semaines.**
 
 ---
 
-## C'est quoi ce projet ?
+## Fonctionnalites
 
-Ce starter-kit te donne tout ce dont tu as besoin pour lancer une application SaaS moderne :
-
-- **Authentification** - Connexion Google en un clic
-- **Base de donnees** - PostgreSQL pret a l'emploi
-- **Paiements** - Integration Polar pour les abonnements
-- **Chatbot IA** - Assistant propulse par OpenRouter
-- **Interface** - Design moderne avec mode sombre
+- **Authentification** - Google OAuth en un clic
+- **Base de donnees** - PostgreSQL + Drizzle ORM
+- **Paiements** - Integration Polar (optionnel)
+- **Chatbot IA** - Assistant OpenRouter
+- **Interface** - Tailwind CSS + mode sombre
+- **Wizard de configuration** - Interface web pour configurer ton projet
+- **Agents Claude** - Workflow automatise pour generer du code
 
 ---
 
 ## Prerequis
 
-Avant de commencer, assure-toi d'avoir installe :
-
-| Outil | Version | Comment verifier |
-|-------|---------|------------------|
-| **Node.js** | 18+ | `node --version` |
-| **Docker** | Latest | `docker --version` |
-| **Git** | Latest | `git --version` |
+| Outil | Version |
+|-------|---------|
+| Node.js | 18+ |
+| Docker | Latest |
+| Git | Latest |
 
 ---
 
 ## Demarrage rapide
 
 ```bash
-# 1. Clone le projet
+# Clone et installe
 git clone https://github.com/One-Up-Dev/OneUp-StarterKit.git
 cd OneUp-StarterKit
-
-# 2. Installe les dependances
 npm install
 
-# 3. Configure l'environnement
+# Configure
 cp .env.example .env
 
-# 4. Lance PostgreSQL
+# Lance PostgreSQL
 docker-compose up -d
 
-# 5. Cree les tables
+# Cree les tables
 npm run db:push
 
-# 6. Lance l'app
+# Lance l'app
 npm run dev
 ```
 
@@ -61,35 +51,79 @@ Ouvre **http://localhost:3000**
 
 ---
 
-## Commandes utiles
+## Configurer ton projet
+
+### Option 1: Interface web (recommande)
+
+1. Connecte-toi sur l'app
+2. Clique sur **"Configurer mon projet"**
+3. Suis le wizard en 5 etapes:
+   - Identite (nom, couleur)
+   - Fonctionnalites (35+ disponibles)
+   - Produit (pricing ou pas de paiement)
+   - Design system (shadcn, daisyui, etc.)
+   - Resume et generation
+
+4. Utilise la commande Claude Code:
+```
+/project-setup
+```
+
+### Option 2: Claude Code directement
+
+Lance `/project-setup` et laisse l'agent te guider.
+
+---
+
+## Agents disponibles
+
+Le starter-kit inclut 4 agents pour automatiser le developpement:
+
+| Agent | Role | Modele |
+|-------|------|--------|
+| `frontend-design` | Design system et composants UI | sonnet |
+| `coder` | Implemente le code | opus |
+| `tester` | Tests visuels Playwright | sonnet |
+| `stuck` | Escalade vers humain | sonnet |
+
+### Workflow
+
+```
+frontend-design (specs) -> coder (implemente) -> tester (valide) -> stuck (si probleme)
+```
+
+### frontend-design
+
+Deux modes:
+- **Mode 1**: Genere le design system complet (couleurs, typo, spacing)
+- **Mode 2**: Genere specs + code pour un composant specifique
+
+Utilise le catalogue `.claude/design-patterns/catalog.md`.
+
+Les agents sont dans `.claude/agents/`.
+
+---
+
+## Commandes
 
 ```bash
-# === DEVELOPPEMENT ===
-npm run dev              # Lance le serveur de dev
-npm run build            # Compile pour la production
-npm run start            # Lance en mode production
+# Developpement
+npm run dev              # Serveur de dev
+npm run build            # Build production
+npm run start            # Mode production
 
-# === BASE DE DONNEES ===
+# Base de donnees
 npm run db:push          # Applique le schema
-npm run db:studio        # Interface web pour la DB
-npm run db:generate      # Genere une migration
+npm run db:studio        # Interface web DB
 
-# === DOCKER (PostgreSQL) ===
+# Docker
 docker-compose up -d     # Demarre PostgreSQL
 docker-compose down      # Arrete PostgreSQL
-docker-compose logs -f   # Voir les logs
-
-# === ARRETER / RELANCER ===
-docker stop oneup-starterkit-postgres    # Arrete PostgreSQL
-docker start oneup-starterkit-postgres   # Relance PostgreSQL
-docker-compose down -v                   # Supprime tout (container + donnees)
 ```
 
 ---
 
-## Configuration
-
-Le fichier `.env` contient toutes les configurations. Copie `.env.example` et modifie les valeurs.
+## Configuration (.env)
 
 ### Base de donnees (fonctionne par defaut)
 
@@ -100,44 +134,22 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/oneup-starterkit
 ### Authentification Google
 
 ```env
-BETTER_AUTH_SECRET=une-cle-secrete-aleatoire
+BETTER_AUTH_SECRET=une-cle-secrete
 BETTER_AUTH_URL=http://localhost:3000
 GOOGLE_CLIENT_ID=ton-client-id
 GOOGLE_CLIENT_SECRET=ton-client-secret
 ```
 
-<details>
-<summary>Comment obtenir les identifiants Google ?</summary>
+[Console Google Cloud](https://console.cloud.google.com/) > APIs & Services > Credentials
 
-1. Va sur [Google Cloud Console](https://console.cloud.google.com/)
-2. Cree un nouveau projet
-3. Va dans **APIs & Services** > **Credentials**
-4. Clique **Create Credentials** > **OAuth client ID**
-5. Ajoute `http://localhost:3000/api/auth/callback/google` dans **Authorized redirect URIs**
-6. Copie le **Client ID** et **Client Secret**
-
-</details>
-
-### Paiements Polar
+### Paiements Polar (optionnel)
 
 ```env
 POLAR_ACCESS_TOKEN=ton-token
 POLAR_ENVIRONMENT=sandbox
-POLAR_WEBHOOK_SECRET=ton-webhook-secret
-POLAR_PRODUCT_BASIC=id-produit-basic
-POLAR_PRODUCT_PRO=id-produit-pro
-POLAR_PRODUCT_ELITE=id-produit-elite
 ```
 
-<details>
-<summary>Comment configurer Polar ?</summary>
-
-1. Cree un compte sur [polar.sh](https://polar.sh/)
-2. Cree une organisation
-3. Va dans **Settings** > **Developers** > **Personal Access Tokens**
-4. Cree 3 produits (Basic, Pro, Elite) et copie leurs IDs
-
-</details>
+[polar.sh](https://polar.sh/) > Settings > Developers
 
 ### Chatbot IA
 
@@ -146,80 +158,30 @@ OPENROUTER_API_KEY=ta-cle-api
 OPENROUTER_MODEL=openai/gpt-3.5-turbo
 ```
 
-<details>
-<summary>Comment obtenir une cle OpenRouter ?</summary>
-
-1. Cree un compte sur [openrouter.ai](https://openrouter.ai/)
-2. Va dans **Keys** et cree une nouvelle cle API
-
-</details>
+[openrouter.ai](https://openrouter.ai/) > Keys
 
 ---
 
-## Personnalisation
-
-### Changer le logo
-
-Remplace `public/logo.png` par ton propre logo.
-
-### Changer le nom
-
-Modifie `Starter-Kit` dans `src/components/Header.tsx`
-
-### Changer les couleurs
-
-Les couleurs principales sont `blue-500` / `blue-600` (Tailwind CSS).
-
----
-
-## Structure du projet
+## Structure
 
 ```
 OneUp-StarterKit/
-├── public/
-│   └── logo.png              # Ton logo
+├── .claude/
+│   ├── agents/              # Agents (frontend-design, coder, tester, stuck)
+│   ├── commands/            # Slash commands (/project-setup)
+│   └── design-patterns/     # Catalogue UI (layouts, components, sections)
 ├── src/
-│   ├── app/                  # Pages et API
-│   │   ├── page.tsx          # Page principale
-│   │   └── api/              # Endpoints
-│   ├── components/           # Composants React
-│   │   ├── Header.tsx        # Header avec logo
-│   │   ├── StatusTable.tsx   # Tableau de statut
-│   │   ├── PricingTable.tsx  # Table de prix
-│   │   └── Chatbot.tsx       # Assistant IA
-│   ├── db/                   # Base de donnees
-│   │   ├── index.ts          # Connexion
-│   │   └── schema.ts         # Schema des tables
-│   └── lib/                  # Utilitaires
-├── drizzle/                  # Migrations SQL
-├── .env.example              # Template config
-├── docker-compose.yml        # Config Docker
-└── package.json              # Dependances
+│   ├── app/                 # Pages et API
+│   │   └── setup/           # Wizard de configuration
+│   ├── components/          # Composants React
+│   ├── lib/
+│   │   ├── setup/           # Config wizard (features, types)
+│   │   ├── auth.ts          # BetterAuth config
+│   │   └── db/              # Drizzle schema
+│   └── store/               # Zustand stores
+├── docker-compose.yml
+└── oneup.config.json        # Config generee par le wizard
 ```
-
----
-
-## Problemes courants
-
-### ECONNREFUSED (Connection refused)
-
-```bash
-# La base de donnees n'est pas demarree
-docker-compose up -d
-docker ps  # Verifie que le container tourne
-```
-
-### Port 5432 already in use
-
-```bash
-# Un autre PostgreSQL tourne deja
-docker stop $(docker ps -q --filter "publish=5432")
-docker-compose up -d
-```
-
-### Bouton "Se connecter" grise
-
-Configure `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans `.env`
 
 ---
 
@@ -233,18 +195,34 @@ Configure `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans `.env`
 | Auth | BetterAuth + Google OAuth |
 | Paiements | Polar |
 | IA | OpenRouter API |
-| Infra | Docker |
 
 ---
 
-## Liens utiles
+## Problemes courants
 
-- [Documentation Next.js](https://nextjs.org/docs)
-- [Documentation Drizzle](https://orm.drizzle.team/docs/overview)
-- [Issues GitHub](https://github.com/One-Up-Dev/OneUp-StarterKit/issues)
+**Connection refused**
+```bash
+docker-compose up -d
+```
+
+**Port 5432 deja utilise**
+```bash
+docker stop $(docker ps -q --filter "publish=5432")
+docker-compose up -d
+```
+
+**Bouton connexion grise**
+Configure `GOOGLE_CLIENT_ID` dans `.env`
 
 ---
 
-<p align="center">
-  <strong>Fait avec mass par OneUp</strong>
-</p>
+## Liens
+
+- [Next.js](https://nextjs.org/docs)
+- [Drizzle ORM](https://orm.drizzle.team/docs/overview)
+- [BetterAuth](https://www.better-auth.com/docs)
+- [Polar](https://polar.sh/docs)
+
+---
+
+**Fait par OneUp**

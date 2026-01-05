@@ -33,11 +33,13 @@ export default function AIAssistant({
   ];
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+    <div className="flex h-full flex-col border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
       {/* Header */}
       <div className="border-b border-gray-200 p-4 dark:border-gray-700">
         <div className="flex items-center gap-2">
-          <span className="text-xl">🤖</span>
+          <div className="flex h-8 w-8 items-center justify-center border border-gray-900 dark:border-white">
+            <span className="text-sm font-bold text-gray-900 dark:text-white">IA</span>
+          </div>
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white">
               Assistant IA
@@ -68,7 +70,7 @@ export default function AIAssistant({
                   key={index}
                   type="button"
                   onClick={() => onSendMessage(question)}
-                  className="block w-full rounded-lg border border-gray-200 p-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="block w-full border border-gray-200 p-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                 >
                   {question}
                 </button>
@@ -83,9 +85,9 @@ export default function AIAssistant({
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-xl px-4 py-2 ${
+                  className={`max-w-[85%] px-4 py-2 ${
                     message.role === "user"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                       : "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white"
                   }`}
                 >
@@ -96,11 +98,11 @@ export default function AIAssistant({
 
             {isLoading && (
               <div className="flex justify-start">
-                <div className="rounded-xl bg-gray-100 px-4 py-3 dark:bg-gray-700">
+                <div className="bg-gray-100 px-4 py-3 dark:bg-gray-700">
                   <div className="flex space-x-2">
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400" style={{ animationDelay: "0ms" }} />
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400" style={{ animationDelay: "150ms" }} />
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400" style={{ animationDelay: "300ms" }} />
+                    <div className="h-2 w-2 animate-bounce bg-gray-400" style={{ animationDelay: "0ms" }} />
+                    <div className="h-2 w-2 animate-bounce bg-gray-400" style={{ animationDelay: "150ms" }} />
+                    <div className="h-2 w-2 animate-bounce bg-gray-400" style={{ animationDelay: "300ms" }} />
                   </div>
                 </div>
               </div>
@@ -118,12 +120,12 @@ export default function AIAssistant({
             onChange={(e) => setInput(e.target.value)}
             placeholder="Posez votre question..."
             disabled={isLoading}
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500"
+            className="flex-1 border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:outline-none disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:focus:border-white"
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="bg-gray-900 px-4 py-2 text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
           >
             <svg
               className="h-5 w-5"

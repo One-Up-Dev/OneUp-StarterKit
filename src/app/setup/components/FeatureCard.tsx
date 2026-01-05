@@ -16,9 +16,9 @@ export default function FeatureCard({
   onToggle,
 }: FeatureCardProps) {
   const complexityColors = {
-    simple: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-    medium: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-    complex: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+    simple: "border-green-600 text-green-700 dark:border-green-400 dark:text-green-400",
+    medium: "border-yellow-600 text-yellow-700 dark:border-yellow-400 dark:text-yellow-400",
+    complex: "border-red-600 text-red-700 dark:border-red-400 dark:text-red-400",
   };
 
   const complexityLabels = {
@@ -31,41 +31,38 @@ export default function FeatureCard({
     <button
       type="button"
       onClick={onToggle}
-      className={`group relative flex w-full flex-col rounded-xl border-2 p-4 text-left transition-all ${
+      className={`group relative flex w-full flex-col border p-4 text-left transition-all ${
         selected
-          ? "border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/20"
-          : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600"
+          ? "border-gray-900 bg-gray-50 dark:border-white dark:bg-gray-800"
+          : "border-gray-200 bg-white hover:border-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-500"
       }`}
     >
       {/* Recommended badge */}
       {recommended && (
-        <span className="absolute -top-2 right-2 rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-medium text-yellow-900">
+        <span className="absolute -top-2 right-2 border border-gray-900 bg-gray-900 px-2 py-0.5 text-xs font-medium text-white dark:border-white dark:bg-white dark:text-gray-900">
           Recommande
         </span>
       )}
 
       {/* Header */}
       <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <span className="text-2xl">{feature.icon}</span>
-          <div>
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              {feature.name}
-            </h4>
-          </div>
+        <div>
+          <h4 className="font-semibold text-gray-900 dark:text-white">
+            {feature.name}
+          </h4>
         </div>
 
         {/* Checkbox */}
         <div
-          className={`flex h-5 w-5 items-center justify-center rounded-md border-2 transition-colors ${
+          className={`flex h-5 w-5 items-center justify-center border transition-colors ${
             selected
-              ? "border-blue-500 bg-blue-500"
+              ? "border-gray-900 bg-gray-900 dark:border-white dark:bg-white"
               : "border-gray-300 dark:border-gray-600"
           }`}
         >
           {selected && (
             <svg
-              className="h-3 w-3 text-white"
+              className="h-3 w-3 text-white dark:text-gray-900"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -87,7 +84,7 @@ export default function FeatureCard({
       {/* Meta */}
       <div className="mt-3 flex items-center gap-2">
         <span
-          className={`rounded-full px-2 py-0.5 text-xs font-medium ${complexityColors[feature.complexity]}`}
+          className={`border px-2 py-0.5 text-xs font-medium ${complexityColors[feature.complexity]}`}
         >
           {complexityLabels[feature.complexity]}
         </span>

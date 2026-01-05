@@ -36,7 +36,7 @@ export interface DesignSystem {
   installCommand: string;
 }
 
-export type ProductType = "subscription" | "one-time" | "freemium" | "usage-based";
+export type ProductType = "subscription" | "one-time" | "freemium" | "usage-based" | "none";
 
 export interface PricingTier {
   name: string;

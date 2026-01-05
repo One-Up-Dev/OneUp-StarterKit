@@ -39,7 +39,7 @@ export default function StepIdentity({ identity, onChange }: StepIdentityProps) 
             value={identity.name}
             onChange={(e) => handleChange("name", e.target.value)}
             placeholder="Ex: MonSaaS, AppFlow, DataHub..."
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+            className="mt-1 block w-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 dark:focus:border-white"
           />
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             Ce nom apparaitra dans le header et le titre de votre application
@@ -60,7 +60,7 @@ export default function StepIdentity({ identity, onChange }: StepIdentityProps) 
             onChange={(e) => handleChange("description", e.target.value)}
             placeholder="Decrivez votre projet en quelques phrases. Ex: Une plateforme de gestion de reservations pour restaurants..."
             rows={3}
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+            className="mt-1 block w-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 dark:focus:border-white"
           />
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             Cette description aidera l&apos;IA a vous suggerer les meilleures fonctionnalites
@@ -78,7 +78,7 @@ export default function StepIdentity({ identity, onChange }: StepIdentityProps) 
                 key={color.value}
                 type="button"
                 onClick={() => handleChange("primaryColor", color.value)}
-                className={`group relative h-10 w-10 rounded-full transition-transform hover:scale-110 ${
+                className={`group relative h-10 w-10 transition-transform hover:scale-110 ${
                   identity.primaryColor === color.value
                     ? "ring-2 ring-gray-900 ring-offset-2 dark:ring-white"
                     : ""
@@ -108,7 +108,7 @@ export default function StepIdentity({ identity, onChange }: StepIdentityProps) 
                 type="color"
                 value={identity.primaryColor}
                 onChange={(e) => handleChange("primaryColor", e.target.value)}
-                className="h-10 w-10 cursor-pointer appearance-none rounded-full border-2 border-dashed border-gray-300 bg-transparent dark:border-gray-600"
+                className="h-10 w-10 cursor-pointer appearance-none border-2 border-dashed border-gray-300 bg-transparent dark:border-gray-600"
                 title="Couleur personnalisee"
               />
             </div>
@@ -116,13 +116,13 @@ export default function StepIdentity({ identity, onChange }: StepIdentityProps) 
         </div>
 
         {/* Preview */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+        <div className="border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
           <p className="mb-3 text-sm font-medium text-gray-500 dark:text-gray-400">
             Apercu
           </p>
           <div className="flex items-center gap-3">
             <div
-              className="flex h-12 w-12 items-center justify-center rounded-lg text-xl font-bold text-white"
+              className="flex h-12 w-12 items-center justify-center text-xl font-bold text-white"
               style={{ backgroundColor: identity.primaryColor }}
             >
               {identity.name ? identity.name.charAt(0).toUpperCase() : "?"}
