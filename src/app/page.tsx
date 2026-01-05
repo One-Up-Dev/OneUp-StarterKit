@@ -90,6 +90,15 @@ export default function Home() {
               ? `Bienvenue, ${user.name || "Utilisateur"}`
               : "Verifiez la configuration de vos services"}
           </p>
+          {user && (
+            <a
+              href="/setup"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-medium text-white shadow-lg transition-all hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+            >
+              <span>🚀</span>
+              Configurer mon projet
+            </a>
+          )}
         </div>
 
         <div className="mx-auto mb-12 w-full max-w-lg">
