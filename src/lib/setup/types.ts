@@ -7,6 +7,46 @@ export interface ProjectIdentity {
   logo?: string;
 }
 
+// Assets uploades par l'utilisateur
+export interface ProjectAssets {
+  logo?: AssetFile;
+  heroImage?: AssetFile;
+  favicon?: AssetFile;
+  ogImage?: AssetFile;
+}
+
+export interface AssetFile {
+  name: string;
+  type: string;
+  size: number;
+  dataUrl: string; // Base64 data URL
+}
+
+// Contexte additionnel du projet (Q&A avec l'IA)
+export interface ProjectContext {
+  enabled: boolean;
+  answers: ContextAnswer[];
+}
+
+export interface ContextAnswer {
+  questionId: string;
+  question: string;
+  answer: string;
+}
+
+// Questions contextuelles predefinies
+export interface ContextQuestion {
+  id: string;
+  question: string;
+  placeholder: string;
+  triggers: ContextTrigger[];
+}
+
+export interface ContextTrigger {
+  type: "feature" | "productType" | "always";
+  value?: string;
+}
+
 export interface Feature {
   id: string;
   name: string;
@@ -56,6 +96,8 @@ export interface ProjectConfig {
   features: string[]; // Feature IDs
   designSystem: string; // DesignSystem ID
   product: ProductConfig;
+  assets: ProjectAssets;
+  context: ProjectContext;
   createdAt: string;
   updatedAt: string;
 }

@@ -51,9 +51,17 @@ export default function StepSummary({ config, onGenerate, isGenerating }: StepSu
           style={{ backgroundColor: config.identity.primaryColor }}
         >
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center bg-white/20 text-3xl font-bold text-white backdrop-blur-sm">
-              {config.identity.name ? config.identity.name.charAt(0).toUpperCase() : "?"}
-            </div>
+            {config.assets?.logo ? (
+              <img
+                src={config.assets.logo.dataUrl}
+                alt="Logo"
+                className="h-16 w-16 object-contain bg-white/20 p-2 backdrop-blur-sm"
+              />
+            ) : (
+              <div className="flex h-16 w-16 items-center justify-center bg-white/20 text-3xl font-bold text-white backdrop-blur-sm">
+                {config.identity.name ? config.identity.name.charAt(0).toUpperCase() : "?"}
+              </div>
+            )}
             <div className="text-white">
               <h3 className="text-2xl font-bold">
                 {config.identity.name || "Mon Projet"}
@@ -160,6 +168,60 @@ export default function StepSummary({ config, onGenerate, isGenerating }: StepSu
           )}
         </div>
       </div>
+
+      {/* Context Q&A */}
+      {config.context?.enabled && config.context.answers.length > 0 && (
+        <div className="mb-6 border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+          <h4 className="mb-4 font-semibold text-gray-900 dark:text-white">
+            Contexte du projet
+          </h4>
+          <div className="space-y-3">
+            {config.context.answers
+              .filter((a) => a.answer.trim().length > 0)
+              .map((answer) => (
+                <div key={answer.questionId} className="text-sm">
+                  <p className="font-medium text-gray-700 dark:text-gray-300">
+                    {answer.question}
+                  </p>
+                  <p className="mt-1 text-gray-600 dark:text-gray-400">
+                    {answer.answer}
+                  </p>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Assets uploaded */}
+      {(config.assets?.logo || config.assets?.heroImage) && (
+        <div className="mb-6 border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+          <h4 className="mb-4 font-semibold text-gray-900 dark:text-white">
+            Assets telecharges
+          </h4>
+          <div className="flex gap-4">
+            {config.assets.logo && (
+              <div className="text-center">
+                <img
+                  src={config.assets.logo.dataUrl}
+                  alt="Logo"
+                  className="h-16 w-16 object-contain border border-gray-200 dark:border-gray-600"
+                />
+                <p className="mt-1 text-xs text-gray-500">Logo</p>
+              </div>
+            )}
+            {config.assets.heroImage && (
+              <div className="text-center">
+                <img
+                  src={config.assets.heroImage.dataUrl}
+                  alt="Hero"
+                  className="h-16 w-24 object-cover border border-gray-200 dark:border-gray-600"
+                />
+                <p className="mt-1 text-xs text-gray-500">Hero</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Dependencies list */}
       {allDependencies.length > 0 && (

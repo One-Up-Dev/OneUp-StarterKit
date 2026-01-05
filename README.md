@@ -57,10 +57,11 @@ Ouvre **http://localhost:3000**
 
 1. Connecte-toi sur l'app
 2. Clique sur **"Configurer mon projet"**
-3. Suis le wizard en 5 etapes:
-   - Identite (nom, couleur)
+3. Suis le wizard en 6 etapes:
+   - Identite (nom, couleur, logo, image hero)
    - Fonctionnalites (35+ disponibles)
    - Produit (pricing ou pas de paiement)
+   - Contexte (Q&A pour personnaliser)
    - Design system (shadcn, daisyui, etc.)
    - Resume et generation
 
