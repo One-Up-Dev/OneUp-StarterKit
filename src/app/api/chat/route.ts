@@ -38,6 +38,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const model = process.env.OPENROUTER_MODEL || "openai/gpt-3.5-turbo";
+
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
           "X-Title": "Starter-Kit",
         },
         body: JSON.stringify({
-          model: "openai/gpt-3.5-turbo",
+          model,
           messages: [
             {
               role: "user",
@@ -64,9 +66,18 @@ export async function POST(request: NextRequest) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error("OpenRouter API error:", errorData);
+      console.error("OpenRouter API error:", {
+        status: response.status,
+        statusText: response.statusText,
+        model,
+        error: errorData,
+      });
       return NextResponse.json(
-        { error: "Failed to get response from AI" },
+        {
+          error:
+            errorData?.error?.message ||
+            `Failed to get response from AI (${response.status})`,
+        },
         { status: 500 },
       );
     }
