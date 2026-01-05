@@ -23,6 +23,27 @@
 | Node.js | 18+ |
 | Docker | Latest |
 | Git | Latest |
+| Claude Code | Latest |
+
+### Installer Claude Code
+
+```bash
+# macOS / Linux
+curl -fsSL https://claude.ai/install.sh | sh
+
+# Windows (PowerShell)
+irm https://claude.ai/install.ps1 | iex
+
+# Ou via npm
+npm install -g @anthropic-ai/claude-code
+```
+
+Verifie l'installation :
+```bash
+claude --version
+```
+
+Documentation : https://docs.anthropic.com/claude-code
 
 ---
 
@@ -57,10 +78,11 @@ Ouvre **http://localhost:3000**
 
 1. Connecte-toi sur l'app
 2. Clique sur **"Configurer mon projet"**
-3. Suis le wizard en 5 etapes:
-   - Identite (nom, couleur)
+3. Suis le wizard en 6 etapes:
+   - Identite (nom, couleur, logo, image hero)
    - Fonctionnalites (35+ disponibles)
    - Produit (pricing ou pas de paiement)
+   - Contexte (Q&A pour personnaliser)
    - Design system (shadcn, daisyui, etc.)
    - Resume et generation
 
@@ -101,6 +123,15 @@ Deux modes:
 Utilise le catalogue `.claude/design-patterns/catalog.md`.
 
 Les agents sont dans `.claude/agents/`.
+
+---
+
+## Commandes Claude Code
+
+| Commande | Description |
+|----------|-------------|
+| `/project-setup` | Genere le projet depuis oneup.config.json |
+| `/clean-up` | Nettoie les fichiers de test et screenshots |
 
 ---
 

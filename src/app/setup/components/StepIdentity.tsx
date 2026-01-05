@@ -1,14 +1,17 @@
 "use client";
 
-import { ProjectIdentity } from "@/lib/setup/types";
+import { ProjectIdentity, ProjectAssets } from "@/lib/setup/types";
 import { brandColors } from "@/lib/setup/config";
+import AssetUpload from "./AssetUpload";
 
 interface StepIdentityProps {
   identity: ProjectIdentity;
+  assets: ProjectAssets;
   onChange: (identity: ProjectIdentity) => void;
+  onAssetsChange: (assets: ProjectAssets) => void;
 }
 
-export default function StepIdentity({ identity, onChange }: StepIdentityProps) {
+export default function StepIdentity({ identity, assets, onChange, onAssetsChange }: StepIdentityProps) {
   const handleChange = (field: keyof ProjectIdentity, value: string) => {
     onChange({ ...identity, [field]: value });
   };
@@ -115,18 +118,46 @@ export default function StepIdentity({ identity, onChange }: StepIdentityProps) 
           </div>
         </div>
 
+        {/* Assets upload */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <AssetUpload
+            label="Logo"
+            description="Logo de votre projet (PNG, SVG recommande)"
+            accept=".png,.jpg,.jpeg,.svg,.webp,image/*"
+            maxSize={1}
+            value={assets.logo}
+            onChange={(logo) => onAssetsChange({ ...assets, logo })}
+          />
+          <AssetUpload
+            label="Image Hero"
+            description="Image pour la section hero de la landing page"
+            accept=".png,.jpg,.jpeg,.webp,image/*"
+            maxSize={2}
+            value={assets.heroImage}
+            onChange={(heroImage) => onAssetsChange({ ...assets, heroImage })}
+          />
+        </div>
+
         {/* Preview */}
         <div className="border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
           <p className="mb-3 text-sm font-medium text-gray-500 dark:text-gray-400">
             Apercu
           </p>
           <div className="flex items-center gap-3">
-            <div
-              className="flex h-12 w-12 items-center justify-center text-xl font-bold text-white"
-              style={{ backgroundColor: identity.primaryColor }}
-            >
-              {identity.name ? identity.name.charAt(0).toUpperCase() : "?"}
-            </div>
+            {assets.logo ? (
+              <img
+                src={assets.logo.dataUrl}
+                alt="Logo"
+                className="h-12 w-12 object-contain"
+              />
+            ) : (
+              <div
+                className="flex h-12 w-12 items-center justify-center text-xl font-bold text-white"
+                style={{ backgroundColor: identity.primaryColor }}
+              >
+                {identity.name ? identity.name.charAt(0).toUpperCase() : "?"}
+              </div>
+            )}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {identity.name || "Nom du projet"}
