@@ -1,4 +1,4 @@
-import { ProjectConfig, ProductType, PricingTier, ContextQuestion } from "./types";
+import { ProjectConfig, ProductType, PricingTier } from "./types";
 
 // Configuration par defaut du projet
 export function getDefaultConfig(): ProjectConfig {
@@ -35,125 +35,10 @@ export function getDefaultConfig(): ProjectConfig {
         },
       ],
     },
-    assets: {},
-    context: {
-      enabled: false,
-      answers: [],
-    },
-    knowledgeBase: {
-      enabled: false,
-      restrictToContent: true,
-    },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
 }
-
-// Questions contextuelles pour le Q&A
-export const contextQuestions: ContextQuestion[] = [
-  // Questions generales (toujours)
-  {
-    id: "target-audience",
-    question: "Qui est votre audience cible ?",
-    placeholder: "Ex: Developpeurs, PME, etudiants, freelances...",
-    triggers: [{ type: "always" }],
-  },
-  {
-    id: "unique-value",
-    question: "Quelle est votre proposition de valeur unique ?",
-    placeholder: "Ex: Le seul outil qui combine X et Y en un seul endroit...",
-    triggers: [{ type: "always" }],
-  },
-
-  // Landing page / Portfolio
-  {
-    id: "your-skills",
-    question: "Quelles sont vos competences principales ?",
-    placeholder: "Ex: Developpement web, design UI/UX, marketing digital...",
-    triggers: [
-      { type: "feature", value: "landing-pages" },
-      { type: "productType", value: "none" },
-    ],
-  },
-  {
-    id: "social-links",
-    question: "Quels sont vos liens professionnels (GitHub, LinkedIn, Twitter) ?",
-    placeholder: "Ex: github.com/user, linkedin.com/in/user...",
-    triggers: [
-      { type: "feature", value: "landing-pages" },
-      { type: "productType", value: "none" },
-    ],
-  },
-  {
-    id: "contact-email",
-    question: "Quel email de contact voulez-vous afficher ?",
-    placeholder: "Ex: contact@monsite.com",
-    triggers: [
-      { type: "feature", value: "contact-form" },
-      { type: "feature", value: "landing-pages" },
-    ],
-  },
-
-  // E-commerce
-  {
-    id: "product-types",
-    question: "Quels types de produits allez-vous vendre ?",
-    placeholder: "Ex: Vetements, ebooks, formations, logiciels...",
-    triggers: [
-      { type: "feature", value: "product-catalog" },
-      { type: "feature", value: "shopping-cart" },
-    ],
-  },
-  {
-    id: "price-range",
-    question: "Quelle est la fourchette de prix de vos produits ?",
-    placeholder: "Ex: 10-50 EUR, 100-500 EUR...",
-    triggers: [
-      { type: "feature", value: "product-catalog" },
-      { type: "feature", value: "checkout" },
-    ],
-  },
-  {
-    id: "shipping-zones",
-    question: "Dans quelles zones geographiques livrez-vous ?",
-    placeholder: "Ex: France uniquement, Europe, Monde entier...",
-    triggers: [{ type: "feature", value: "shipping" }],
-  },
-
-  // Blog / Content
-  {
-    id: "content-topics",
-    question: "Quels sujets allez-vous aborder dans vos contenus ?",
-    placeholder: "Ex: Tech, business, lifestyle, tutoriels...",
-    triggers: [
-      { type: "feature", value: "blog" },
-      { type: "feature", value: "documentation" },
-    ],
-  },
-  {
-    id: "publish-frequency",
-    question: "A quelle frequence prevoyez-vous de publier ?",
-    placeholder: "Ex: 1 article/semaine, 2 articles/mois...",
-    triggers: [{ type: "feature", value: "blog" }],
-  },
-
-  // SaaS specifique
-  {
-    id: "user-roles",
-    question: "Quels roles d'utilisateurs prevoyez-vous ?",
-    placeholder: "Ex: Admin, Manager, User, Guest...",
-    triggers: [
-      { type: "feature", value: "user-management" },
-      { type: "feature", value: "multi-tenant" },
-    ],
-  },
-  {
-    id: "data-retention",
-    question: "Quelle politique de retention des donnees souhaitez-vous ?",
-    placeholder: "Ex: 30 jours, 1 an, illimite...",
-    triggers: [{ type: "feature", value: "analytics-basic" }],
-  },
-];
 
 // Templates de pricing par type de produit
 export const pricingTemplates: Record<ProductType, PricingTier[]> = {

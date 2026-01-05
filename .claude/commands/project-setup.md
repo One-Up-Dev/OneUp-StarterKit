@@ -14,44 +14,12 @@ Avant toute action, verifie que tout est en ordre:
 2. Valider la structure JSON
 3. Verifier que les features IDs existent dans le catalogue
 4. Verifier que le design system est valide
-5. Verifier les assets (logo, heroImage) si presents
-6. Verifier le contexte Q&A si active
 ```
 
 **Si le fichier n'existe pas ou est invalide:**
 - Informe l'utilisateur
 - Suggere d'aller sur `/setup` pour configurer le projet
 - STOP - ne pas continuer
-
-### Structure de la config (v1.1):
-
-```json
-{
-  "version": "1.0.0",
-  "identity": { "name", "description", "primaryColor", "logo" },
-  "features": ["feature-id-1", "feature-id-2"],
-  "designSystem": "shadcn",
-  "product": { "type", "tiers" },
-  "assets": {
-    "logo": { "name", "type", "size", "dataUrl" },
-    "heroImage": { "name", "type", "size", "dataUrl" }
-  },
-  "context": {
-    "enabled": true,
-    "answers": [
-      { "questionId": "target-audience", "question": "...", "answer": "..." }
-    ]
-  }
-}
-```
-
-### Utilisation du contexte Q&A:
-
-Si `config.context.enabled === true`, utilise les reponses pour:
-- Pre-remplir les textes (hero, about, footer)
-- Configurer les liens sociaux
-- Adapter les composants e-commerce (types de produits, prix)
-- Personnaliser les emails
 
 ---
 
@@ -809,38 +777,6 @@ Selon `config.identity`:
 - tailwind.config.ts: ajouter la couleur en tant que 'primary'
 - OU src/app/globals.css: variables CSS custom
 ```
-
-### Assets uploades (si presents)
-
-Si `config.assets.logo` existe:
-```
-1. Decoder le dataUrl base64
-2. Sauvegarder dans public/images/logo.[ext]
-3. Mettre a jour le Header avec <Image src="/images/logo.[ext]" />
-4. Mettre a jour le favicon si c'est un format compatible
-```
-
-Si `config.assets.heroImage` existe:
-```
-1. Decoder le dataUrl base64
-2. Sauvegarder dans public/images/hero.[ext]
-3. Utiliser dans le composant Hero de la landing page
-```
-
-### Contexte personnalise (si active)
-
-Si `config.context.enabled === true`, utilise les reponses:
-
-| Question ID | Utilisation |
-|-------------|-------------|
-| target-audience | Texte du hero, meta description |
-| unique-value | Tagline, section "Why us" |
-| your-skills | Page About, Footer |
-| social-links | Header, Footer (liens GitHub, LinkedIn, etc.) |
-| contact-email | Page Contact, Footer |
-| product-types | Categories dans le catalogue |
-| price-range | Filtres de prix, suggestions |
-| content-topics | Categories du blog |
 
 ---
 

@@ -8,7 +8,6 @@ import StepIdentity from "./components/StepIdentity";
 import StepFeatures from "./components/StepFeatures";
 import StepProducts from "./components/StepProducts";
 import StepDesign from "./components/StepDesign";
-import StepContext from "./components/StepContext";
 import StepSummary from "./components/StepSummary";
 import AIAssistant from "./components/AIAssistant";
 
@@ -16,9 +15,8 @@ const WIZARD_STEPS: WizardStep[] = [
   { id: 1, name: "Identite", description: "Nom et branding", icon: "1", completed: false },
   { id: 2, name: "Fonctionnalites", description: "Choisir les features", icon: "2", completed: false },
   { id: 3, name: "Produit", description: "Type et tarification", icon: "3", completed: false },
-  { id: 4, name: "Contexte", description: "Details du projet", icon: "4", completed: false },
-  { id: 5, name: "Design", description: "Systeme UI", icon: "5", completed: false },
-  { id: 6, name: "Resume", description: "Valider et generer", icon: "6", completed: false },
+  { id: 4, name: "Design", description: "Systeme UI", icon: "4", completed: false },
+  { id: 5, name: "Resume", description: "Valider et generer", icon: "5", completed: false },
 ];
 
 export default function SetupWizard() {
@@ -75,7 +73,7 @@ export default function SetupWizard() {
   };
 
   const goToStep = (step: number) => {
-    if (step >= 1 && step <= 6) {
+    if (step >= 1 && step <= 5) {
       // Mark current step as completed if moving forward
       if (step > currentStep) {
         updateStepCompletion(currentStep, true);
@@ -166,10 +164,8 @@ export default function SetupWizard() {
       case 3:
         return config.product.type === "none" || config.product.tiers.length > 0;
       case 4:
-        return true; // Context is optional
-      case 5:
         return config.designSystem.length > 0;
-      case 6:
+      case 5:
         return config.identity.name.trim().length > 0;
       default:
         return true;
@@ -264,18 +260,14 @@ export default function SetupWizard() {
             {currentStep === 1 && (
               <StepIdentity
                 identity={config.identity}
-                assets={config.assets}
                 onChange={(identity) => setConfig({ ...config, identity })}
-                onAssetsChange={(assets) => setConfig({ ...config, assets })}
               />
             )}
             {currentStep === 2 && (
               <StepFeatures
                 selectedFeatures={config.features}
                 recommendedFeatures={recommendedFeatures}
-                knowledgeBase={config.knowledgeBase}
                 onChange={(features) => setConfig({ ...config, features })}
-                onKnowledgeBaseChange={(knowledgeBase) => setConfig({ ...config, knowledgeBase })}
                 onAskAI={(question) => {
                   setShowAI(true);
                   handleAISendMessage(question);
@@ -289,19 +281,12 @@ export default function SetupWizard() {
               />
             )}
             {currentStep === 4 && (
-              <StepContext
-                context={config.context}
-                config={config}
-                onChange={(context) => setConfig({ ...config, context })}
-              />
-            )}
-            {currentStep === 5 && (
               <StepDesign
                 selectedDesignSystem={config.designSystem}
                 onChange={(designSystem) => setConfig({ ...config, designSystem })}
               />
             )}
-            {currentStep === 6 && (
+            {currentStep === 5 && (
               <StepSummary
                 config={config}
                 onGenerate={handleGenerate}
@@ -311,7 +296,7 @@ export default function SetupWizard() {
           </div>
 
           {/* Navigation */}
-          {currentStep < 6 && (
+          {currentStep < 5 && (
             <div className="flex justify-between">
               <button
                 onClick={handlePrevious}

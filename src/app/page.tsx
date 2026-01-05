@@ -98,11 +98,6 @@ export default function Home() {
               Configurer mon projet
             </a>
           )}
-          {user && openRouterEnabled && (
-            <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-              Pour un meilleur contexte de projet, utilisez un modele performant (Claude 3.5 Sonnet, GPT-4o)
-            </p>
-          )}
         </div>
 
         <div className="mx-auto mb-12 w-full max-w-lg">
