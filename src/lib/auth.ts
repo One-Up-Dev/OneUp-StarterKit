@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { nextCookies } from "better-auth/next-js";
 import { polar, checkout, portal, webhooks } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
 import { db } from "@/db";
@@ -39,6 +40,7 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // 5 minutes
     },
   },
+  basePath: "/api/auth",
   trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:3000"],
   plugins: [
     polar({
@@ -69,6 +71,8 @@ export const auth = betterAuth({
         }),
       ],
     }),
+    // nextCookies() must be the LAST plugin - ensures proper cookie handling in Next.js
+    nextCookies(),
   ],
 });
 
