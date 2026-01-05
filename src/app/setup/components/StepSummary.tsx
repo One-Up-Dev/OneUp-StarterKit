@@ -114,24 +114,26 @@ export default function StepSummary({ config, onGenerate, isGenerating }: StepSu
           </div>
 
           {/* Pricing Tiers */}
-          <div className="p-4">
-            <span className="text-gray-600 dark:text-gray-400">Plans tarifaires</span>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {config.product.tiers.map((tier, index) => (
-                <span
-                  key={index}
-                  className="border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-700"
-                >
-                  <span className="font-medium text-gray-900 dark:text-white">
-                    {tier.name}
+          {config.product.type !== "none" && (
+            <div className="p-4">
+              <span className="text-gray-600 dark:text-gray-400">Plans tarifaires</span>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {config.product.tiers.map((tier, index) => (
+                  <span
+                    key={index}
+                    className="border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-700"
+                  >
+                    <span className="font-medium text-gray-900 dark:text-white">
+                      {tier.name}
+                    </span>
+                    <span className="ml-2 text-gray-500 dark:text-gray-400">
+                      {tier.price}EUR{tier.interval ? `/${tier.interval === "month" ? "mois" : "an"}` : ""}
+                    </span>
                   </span>
-                  <span className="ml-2 text-gray-500 dark:text-gray-400">
-                    {tier.price}EUR{tier.interval ? `/${tier.interval === "month" ? "mois" : "an"}` : ""}
-                  </span>
-                </span>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

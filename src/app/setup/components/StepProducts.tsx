@@ -90,7 +90,7 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
         <label className="mb-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Type de monetisation
         </label>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {productTypes.map((type) => (
             <button
               key={type}
@@ -113,124 +113,140 @@ export default function StepProducts({ product, onChange }: StepProductsProps) {
         </div>
       </div>
 
-      {/* Pricing tiers */}
-      <div>
-        <div className="mb-4 flex items-center justify-between">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Plans tarifaires
-          </label>
-          <button
-            type="button"
-            onClick={addTier}
-            className="flex items-center gap-1 border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-900 dark:border-gray-600 dark:text-gray-300 dark:hover:border-white"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            Ajouter un plan
-          </button>
+      {/* Pricing tiers or no payment message */}
+      {product.type === "none" ? (
+        <div className="border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-700 dark:bg-gray-800">
+          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Pas de systeme de paiement
+          </h3>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Ideal pour les landing pages, portfolios, sites vitrines ou projets sans monetisation.
+            <br />
+            Vous pourrez toujours ajouter un systeme de paiement plus tard.
+          </p>
         </div>
-
-        <div className="grid gap-6 lg:grid-cols-3">
-          {product.tiers.map((tier, tierIndex) => (
-            <div
-              key={tierIndex}
-              className="relative border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800"
+      ) : (
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Plans tarifaires
+            </label>
+            <button
+              type="button"
+              onClick={addTier}
+              className="flex items-center gap-1 border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-900 dark:border-gray-600 dark:text-gray-300 dark:hover:border-white"
             >
-              {/* Remove button */}
-              {product.tiers.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeTier(tierIndex)}
-                  className="absolute right-2 top-2 p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Ajouter un plan
+            </button>
+          </div>
 
-              {/* Tier name */}
-              <input
-                type="text"
-                value={tier.name}
-                onChange={(e) => handleTierChange(tierIndex, "name", e.target.value)}
-                className="mb-4 w-full border-b border-gray-200 bg-transparent pb-2 text-lg font-semibold text-gray-900 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:text-white"
-                placeholder="Nom du plan"
-              />
-
-              {/* Price */}
-              <div className="mb-4 flex items-end gap-2">
-                <div className="flex-1">
-                  <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">
-                    Prix
-                  </label>
-                  <div className="flex items-center">
-                    <input
-                      type="number"
-                      value={tier.price}
-                      onChange={(e) => handleTierChange(tierIndex, "price", parseFloat(e.target.value) || 0)}
-                      className="w-24 border border-gray-300 px-3 py-2 text-xl font-bold text-gray-900 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-white"
-                      min="0"
-                    />
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">EUR</span>
-                  </div>
-                </div>
-
-                {(product.type === "subscription" || product.type === "freemium" || product.type === "usage-based") && tier.price > 0 && (
-                  <select
-                    value={tier.interval || "month"}
-                    onChange={(e) => handleTierChange(tierIndex, "interval", e.target.value as "month" | "year")}
-                    className="border border-gray-300 px-3 py-2 text-gray-700 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:focus:border-white"
-                  >
-                    <option value="month">/mois</option>
-                    <option value="year">/an</option>
-                  </select>
-                )}
-              </div>
-
-              {/* Features */}
-              <div>
-                <label className="mb-2 block text-xs text-gray-500 dark:text-gray-400">
-                  Fonctionnalites incluses
-                </label>
-                <div className="space-y-2">
-                  {tier.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center gap-2">
-                      <span className="text-green-500">✓</span>
-                      <input
-                        type="text"
-                        value={feature}
-                        onChange={(e) => updateFeature(tierIndex, featureIndex, e.target.value)}
-                        className="flex-1 rounded border border-transparent bg-transparent px-2 py-1 text-sm text-gray-700 focus:border-gray-300 focus:outline-none dark:text-gray-300"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeFeature(tierIndex, featureIndex)}
-                        className="text-gray-400 hover:text-red-500"
-                      >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                  ))}
+          <div className="grid gap-6 lg:grid-cols-3">
+            {product.tiers.map((tier, tierIndex) => (
+              <div
+                key={tierIndex}
+                className="relative border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800"
+              >
+                {/* Remove button */}
+                {product.tiers.length > 1 && (
                   <button
                     type="button"
-                    onClick={() => addFeature(tierIndex)}
-                    className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                    onClick={() => removeTier(tierIndex)}
+                    className="absolute right-2 top-2 p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                   >
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    Ajouter
                   </button>
+                )}
+
+                {/* Tier name */}
+                <input
+                  type="text"
+                  value={tier.name}
+                  onChange={(e) => handleTierChange(tierIndex, "name", e.target.value)}
+                  className="mb-4 w-full border-b border-gray-200 bg-transparent pb-2 text-lg font-semibold text-gray-900 focus:border-gray-900 focus:outline-none dark:border-gray-700 dark:text-white"
+                  placeholder="Nom du plan"
+                />
+
+                {/* Price */}
+                <div className="mb-4 flex items-end gap-2">
+                  <div className="flex-1">
+                    <label className="mb-1 block text-xs text-gray-500 dark:text-gray-400">
+                      Prix
+                    </label>
+                    <div className="flex items-center">
+                      <input
+                        type="number"
+                        value={tier.price}
+                        onChange={(e) => handleTierChange(tierIndex, "price", parseFloat(e.target.value) || 0)}
+                        className="w-24 border border-gray-300 px-3 py-2 text-xl font-bold text-gray-900 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-white"
+                        min="0"
+                      />
+                      <span className="ml-2 text-gray-600 dark:text-gray-400">EUR</span>
+                    </div>
+                  </div>
+
+                  {(product.type === "subscription" || product.type === "freemium" || product.type === "usage-based") && tier.price > 0 && (
+                    <select
+                      value={tier.interval || "month"}
+                      onChange={(e) => handleTierChange(tierIndex, "interval", e.target.value as "month" | "year")}
+                      className="border border-gray-300 px-3 py-2 text-gray-700 focus:border-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:focus:border-white"
+                    >
+                      <option value="month">/mois</option>
+                      <option value="year">/an</option>
+                    </select>
+                  )}
+                </div>
+
+                {/* Features */}
+                <div>
+                  <label className="mb-2 block text-xs text-gray-500 dark:text-gray-400">
+                    Fonctionnalites incluses
+                  </label>
+                  <div className="space-y-2">
+                    {tier.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center gap-2">
+                        <span className="text-green-500">+</span>
+                        <input
+                          type="text"
+                          value={feature}
+                          onChange={(e) => updateFeature(tierIndex, featureIndex, e.target.value)}
+                          className="flex-1 border border-transparent bg-transparent px-2 py-1 text-sm text-gray-700 focus:border-gray-300 focus:outline-none dark:text-gray-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeFeature(tierIndex, featureIndex)}
+                          className="text-gray-400 hover:text-red-500"
+                        >
+                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => addFeature(tierIndex)}
+                      className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                      Ajouter
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

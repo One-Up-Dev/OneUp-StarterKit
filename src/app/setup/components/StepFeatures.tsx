@@ -32,6 +32,11 @@ export default function StepFeatures({
     }
   };
 
+  const selectAllRecommended = () => {
+    const newFeatures = [...new Set([...selectedFeatures, ...recommendedFeatures])];
+    onChange(newFeatures);
+  };
+
   // Filter features
   const getFilteredFeatures = () => {
     let features =
@@ -141,11 +146,24 @@ export default function StepFeatures({
         </div>
       </div>
 
-      {/* Selected count */}
+      {/* Selected count and actions */}
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          {filteredFeatures.length} fonctionnalites disponibles
-        </span>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {filteredFeatures.length} fonctionnalites disponibles
+          </span>
+          {recommendedFeatures.length > 0 && (
+            <button
+              onClick={selectAllRecommended}
+              className="flex items-center gap-1 border border-gray-300 px-3 py-1 text-xs font-medium text-gray-700 transition-colors hover:border-gray-900 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:border-white dark:hover:bg-gray-800"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Selectionner tous les recommandes ({recommendedFeatures.length})
+            </button>
+          )}
+        </div>
         <span className="border border-gray-900 px-3 py-1 text-sm font-medium text-gray-900 dark:border-white dark:text-white">
           {selectedFeatures.length} selectionnees
         </span>
