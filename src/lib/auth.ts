@@ -6,7 +6,12 @@ import { Polar } from "@polar-sh/sdk";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
 
-// Initialize Polar client
+// Check if Polar is properly configured
+const isPolarConfigured =
+  !!process.env.POLAR_ACCESS_TOKEN &&
+  process.env.POLAR_ACCESS_TOKEN !== "your-polar-access-token";
+
+// Initialize Polar client (only if configured)
 const polarClient = new Polar({
   accessToken: process.env.POLAR_ACCESS_TOKEN || "",
   server:
@@ -15,6 +20,46 @@ const polarClient = new Polar({
 
 // Export for use in status checks
 export { polarClient };
+
+// Build plugins array - only include Polar if configured
+const plugins = [];
+
+if (isPolarConfigured) {
+  plugins.push(
+    polar({
+      client: polarClient,
+      // Only create customer on signup if Polar is properly configured
+      createCustomerOnSignUp: true,
+      use: [
+        checkout({
+          products: [
+            {
+              productId: process.env.POLAR_PRODUCT_BASIC || "",
+              slug: "basic",
+            },
+            {
+              productId: process.env.POLAR_PRODUCT_PRO || "",
+              slug: "pro",
+            },
+            {
+              productId: process.env.POLAR_PRODUCT_ELITE || "",
+              slug: "elite",
+            },
+          ],
+          successUrl: "/success?checkout_id={CHECKOUT_ID}",
+          authenticatedUsersOnly: true,
+        }),
+        portal(),
+        webhooks({
+          secret: process.env.POLAR_WEBHOOK_SECRET || "",
+        }),
+      ],
+    })
+  );
+}
+
+// nextCookies() must be the LAST plugin - ensures proper cookie handling in Next.js
+plugins.push(nextCookies());
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -42,38 +87,7 @@ export const auth = betterAuth({
   },
   basePath: "/api/auth",
   trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:3000"],
-  plugins: [
-    polar({
-      client: polarClient,
-      createCustomerOnSignUp: true,
-      use: [
-        checkout({
-          products: [
-            {
-              productId: process.env.POLAR_PRODUCT_BASIC || "",
-              slug: "basic",
-            },
-            {
-              productId: process.env.POLAR_PRODUCT_PRO || "",
-              slug: "pro",
-            },
-            {
-              productId: process.env.POLAR_PRODUCT_ELITE || "",
-              slug: "elite",
-            },
-          ],
-          successUrl: "/success?checkout_id={CHECKOUT_ID}",
-          authenticatedUsersOnly: true,
-        }),
-        portal(),
-        webhooks({
-          secret: process.env.POLAR_WEBHOOK_SECRET || "",
-        }),
-      ],
-    }),
-    // nextCookies() must be the LAST plugin - ensures proper cookie handling in Next.js
-    nextCookies(),
-  ],
+  plugins,
 });
 
 export type Session = typeof auth.$Infer.Session;
