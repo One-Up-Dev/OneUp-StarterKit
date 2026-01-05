@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, type BetterAuthPlugin } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { polar, checkout, portal, webhooks } from "@polar-sh/better-auth";
@@ -11,7 +11,7 @@ const isPolarConfigured =
   !!process.env.POLAR_ACCESS_TOKEN &&
   process.env.POLAR_ACCESS_TOKEN !== "your-polar-access-token";
 
-// Initialize Polar client (only if configured)
+// Initialize Polar client
 const polarClient = new Polar({
   accessToken: process.env.POLAR_ACCESS_TOKEN || "",
   server:
@@ -21,45 +21,50 @@ const polarClient = new Polar({
 // Export for use in status checks
 export { polarClient };
 
-// Build plugins array - only include Polar if configured
-const plugins = [];
+// Create Polar plugin only if configured
+function getPolarPlugin() {
+  if (!isPolarConfigured) {
+    return null;
+  }
 
-if (isPolarConfigured) {
-  plugins.push(
-    polar({
-      client: polarClient,
-      // Only create customer on signup if Polar is properly configured
-      createCustomerOnSignUp: true,
-      use: [
-        checkout({
-          products: [
-            {
-              productId: process.env.POLAR_PRODUCT_BASIC || "",
-              slug: "basic",
-            },
-            {
-              productId: process.env.POLAR_PRODUCT_PRO || "",
-              slug: "pro",
-            },
-            {
-              productId: process.env.POLAR_PRODUCT_ELITE || "",
-              slug: "elite",
-            },
-          ],
-          successUrl: "/success?checkout_id={CHECKOUT_ID}",
-          authenticatedUsersOnly: true,
-        }),
-        portal(),
-        webhooks({
-          secret: process.env.POLAR_WEBHOOK_SECRET || "",
-        }),
-      ],
-    })
-  );
+  return polar({
+    client: polarClient,
+    createCustomerOnSignUp: true,
+    use: [
+      checkout({
+        products: [
+          {
+            productId: process.env.POLAR_PRODUCT_BASIC || "",
+            slug: "basic",
+          },
+          {
+            productId: process.env.POLAR_PRODUCT_PRO || "",
+            slug: "pro",
+          },
+          {
+            productId: process.env.POLAR_PRODUCT_ELITE || "",
+            slug: "elite",
+          },
+        ],
+        successUrl: "/success?checkout_id={CHECKOUT_ID}",
+        authenticatedUsersOnly: true,
+      }),
+      portal(),
+      webhooks({
+        secret: process.env.POLAR_WEBHOOK_SECRET || "",
+      }),
+    ],
+  });
 }
 
-// nextCookies() must be the LAST plugin - ensures proper cookie handling in Next.js
-plugins.push(nextCookies());
+// Build plugins array with proper typing
+const polarPlugin = getPolarPlugin();
+const plugins: BetterAuthPlugin[] = [
+  // Include Polar only if configured
+  ...(polarPlugin ? [polarPlugin] : []),
+  // nextCookies() must be LAST - ensures proper cookie handling in Next.js
+  nextCookies(),
+];
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
