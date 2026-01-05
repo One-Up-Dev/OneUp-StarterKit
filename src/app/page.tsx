@@ -18,6 +18,22 @@ export default function Home() {
     setAuthEnabled(enabled);
   }, []);
 
+  // Check Auth status directly (more reliable than callback)
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const response = await fetch("/api/status/auth");
+        if (response.ok) {
+          const data = await response.json();
+          setAuthEnabled(data.connected);
+        }
+      } catch {
+        setAuthEnabled(false);
+      }
+    }
+    checkAuth();
+  }, []);
+
   // Check OpenRouter status
   useEffect(() => {
     async function checkOpenRouter() {
