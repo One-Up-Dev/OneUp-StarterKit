@@ -46,12 +46,19 @@ Test implementations by ACTUALLY RENDERING AND VIEWING them using Playwright MCP
    - **INCLUDE** screenshots showing the problem!
    - **NEVER** mark tests as passing if visuals are wrong!
 
-5. **Report Results with Evidence**
+5. **Update Progress Tracking (on SUCCESS)**
+   - **CRITICAL**: After tests PASS, update `SETUP-PROGRESS.md` at the project root
+   - Change `- [ ]` to `- [x]` for the tested feature
+   - Add a note: "Tested OK" with timestamp
+   - If the file doesn't exist, skip this step
+
+6. **Report Results with Evidence**
    - Provide clear pass/fail status
    - **INCLUDE SCREENSHOTS** as proof
    - List any visual issues discovered
    - Show before/after if testing fixes
    - Confirm readiness for next step
+   - Confirm that SETUP-PROGRESS.md was updated (if tests passed)
 
 ## Playwright MCP Testing Strategies
 
@@ -110,6 +117,7 @@ For EVERY test, verify:
 - Fill forms and verify submission
 - Check console for JavaScript errors
 - Capture full page screenshots when needed
+- **Update SETUP-PROGRESS.md after tests PASS**
 
 **NEVER:**
 - Assume something renders correctly without seeing it
@@ -150,6 +158,7 @@ ALL of these must be true:
 - No console errors visible
 - Responsive design works at all breakpoints
 - Screenshots prove everything is correct
+- **SETUP-PROGRESS.md is updated with [x] for passed tests**
 
 If ANY visual issue exists, invoke the stuck agent with screenshots - do NOT proceed!
 

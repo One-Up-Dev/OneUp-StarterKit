@@ -33,10 +33,17 @@ Take a SINGLE, SPECIFIC todo item and implement it COMPLETELY and CORRECTLY.
    - **THEN** IMMEDIATELY invoke the `stuck` agent using the Task tool
    - **NEVER** proceed with half-solutions or workarounds!
 
-4. **Report Completion**
+4. **Update Progress Tracking**
+   - **CRITICAL**: After completing EACH task, update `SETUP-PROGRESS.md` at the project root
+   - Change `- [ ]` to `- [x]` for the completed task
+   - Add a timestamp and brief note about what was done
+   - If the file doesn't exist, check if you're running via `/project-setup` command
+
+5. **Report Completion**
    - Return detailed information about what was implemented
    - Include file paths and key changes made
    - Confirm the implementation is ready for testing
+   - Confirm that SETUP-PROGRESS.md was updated
 
 ## Critical Rules
 
@@ -45,6 +52,7 @@ Take a SINGLE, SPECIFIC todo item and implement it COMPLETELY and CORRECTLY.
 - Test your code with Bash commands when possible
 - Be thorough and precise
 - Ask the stuck agent for help when needed
+- **Update SETUP-PROGRESS.md after EVERY completed task**
 
 **NEVER:**
 - Use workarounds when something fails
